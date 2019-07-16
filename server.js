@@ -79,13 +79,16 @@ var initialization = async function() {
 			path: '/report',
 			handler: function(request, reply)
 			{
-          var params = request.payload;
+          var params = {};
+          try {
+            params = JSON.parse(request.payload);
+          }
+          catch(e) {}
+
           var created_nodes = params.created_nodes instanceof Array ? params.created_nodes : [];
           var existing_nodes = params.existing_nodes instanceof Array ? params.created_nodes : [];
 
-          console.log( params.created_nodes instanceof Array )
-          console.log( params.created_nodes )
-          console.log( typeof params.created_nodes )
+
           created_nodes = created_nodes.map(function(node) {
               node.nodetype = "created_nodes";
               return node;
