@@ -81,8 +81,8 @@ var initialization = async function() {
 			{
           return new Promise(function(resolve, reject) {
               query("SELECT * FROM bth_nodes WHERE 1", [], function(err, rows) {
-                    if (!err) resolve(nodes: rows);
-                    else resolve(nodes:[])
+                    if (!err) resolve({nodes: rows});
+                    else resolve({nodes:[]})
               });
           });
       }
