@@ -104,7 +104,7 @@ var initialization = async function() {
           for (var index in nodes) {
                 var node = nodes[index];
                 var data = {};
-                data.ipid = (request.location.ip || "") + (request.location.rpcport || "") + (request.location.p2pport || "")
+                data.ipid = (request.location.ip || "").split(".").join("") + (node.rpcport || "") + (node.p2pport || "")
                 data.callingip = (request.location.ip || "")
                 data.callingip_country = (request.location.country || "")
                 data.callingip_region = (request.location.region || "")
