@@ -110,13 +110,14 @@ var initialization = async function() {
                 data.callingip_region = (request.location.region || "")
                 data.callingip_lat = ((request.location.loc || "").split(",")[0] || "")
                 data.callingip_long = ((request.location.loc || "").split(",")[1] || "")
+                data.callingip_hostname = (request.location.hostname || "")
+                data.callingip_city = (request.location.city || "")
+                data.callingip_postal = (request.location.postal || "")
+                data.callingip_org = (request.location.org || "")
                 data.reportedip = (node.ipaddress || "")
                 data.bthaddress = (node.address || "")
                 data.blockheight = (node.nodestats_getinfo || {}).blocks || 0
                 data.nodetype = node.nodetype;
-                data.callingip_hostname = (request.location.hostname || "")
-                data.callingip_postal = (request.location.postal || "")
-                data.callingip_org = (request.location.org || "")
                 query("INSERT INTO bth_nodes SET ? ON DUPLICATE KEY UPDATE ipid = VALUES(ipid),callingip = VALUES(callingip),callingip_country = VALUES(callingip_country),callingip_region = VALUES(callingip_region),callingip_city = VALUES(callingip_city), callingip_hostname = VALUES(callingip_hostname), callingip_postal = VALUES(callingip_postal), callingip_org = VALUES(callingip_org), callingip_lat = VALUES(callingip_lat),callingip_long = VALUES(callingip_long),reportedip = VALUES(reportedip),bthaddress = VALUES(bthaddress),blockheight = VALUES(blockheight), nodetype = VALUES(nodetype), last_reported_on = NOW()", data, function() {
                       console.log(arguments);
                 });
