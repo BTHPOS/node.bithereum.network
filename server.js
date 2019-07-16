@@ -75,12 +75,14 @@ var initialization = async function() {
 	});
 
 	server.route({
-			method: 'GET',
+			method: 'POST',
 			path: '/report',
 			handler: function(request, reply)
 			{
           var params = request.payload;
           console.log(request.location);
+          console.log(params);
+          
           // var data = {};
           // data.ipid =
           // data.callingip = "10.68.38.21";
