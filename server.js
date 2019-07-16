@@ -79,8 +79,11 @@ var initialization = async function() {
 			path: '/all',
 			handler: function(request, reply)
 			{
-          query("SELECT * FROM bth_nodes WHERE 1", [], function() {
-              console.log(arguments);
+          return new Promise(function(resolve, reject) {
+              query("SELECT * FROM bth_nodes WHERE 1", [], function(err, rows) {
+                    if (!err) resolve(nodes: rows);
+                    else resolve(nodes:[])
+              });
           });
       }
   });
