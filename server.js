@@ -75,6 +75,17 @@ var initialization = async function() {
 	});
 
 	server.route({
+			method: 'GET',
+			path: '/all',
+			handler: function(request, reply)
+			{
+          query("SELECT * FROM bth_nodes WHERE 1", [], function() {
+              console.log(arguments);
+          });
+      }
+  });
+
+	server.route({
 			method: 'POST',
 			path: '/report',
 			handler: function(request, reply)
