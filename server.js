@@ -80,24 +80,38 @@ var initialization = async function() {
 			handler: function(request, reply)
 			{
           var params = request.payload;
-          console.log(request.location);
-          console.log(params);
-          
-          // var data = {};
-          // data.ipid =
-          // data.callingip = "10.68.38.21";
-          // data.callingip_country = "United States";
-          // data.callingip_state = "New Jersey";
-          // data.callingip_lat = "20.39288222";
-          // data.callingip_long = "-74.30382222";
-          // data.reportedip = "192.168.1.1";
-          // data.bthaddress = "00000";
-          // data.blockheight = 398291;
-          // data.nodetype = "existing_nodes";
-          //
-          // query("INSERT INTO bth_nodes SET ? ON DUPLICATE KEY UPDATE ipid = VALUES(ipid),callingip = VALUES(callingip),callingip_country = VALUES(callingip_country),callingip_state = VALUES(callingip_state),callingip_lat = VALUES(callingip_lat),callingip_long = VALUES(callingip_long),reportedip = VALUES(reportedip),bthaddress = VALUES(bthaddress),blockheight = VALUES(blockheight), nodetype = VALUES(nodetype), last_reported_on = NOW()", data, function() {
-          //       console.log(arguments);
-          // });
+          var created_nodes = params.created_nodes instanceof Array ? params.created_nodes : [];
+          var existing_nodes = params.existing_nodes instanceof Array ? params.created_nodes : [];
+
+          created_nodes = created_nodes.map(function(node) {
+              node.nodetype = "created_nodes";
+              return node;
+          })
+
+          existing_nodes = existing_nodes.map(function(node) {
+              node.nodetype = "existing_nodes";
+              return node;
+          })
+
+          var nodes = created_nodes.concat(existing_nodes);
+
+          for (var index in nodes) {
+                var node = nodes[index];
+                var data = {};
+                data.ipid = (request.location.ip || "") + (request.location.rpcport || "") + (request.location.p2pport || "")
+                data.callingip = (request.location.ip || "")
+                data.callingip_country = (request.location.country || "")
+                data.callingip_state = (request.location.region || "")
+                data.callingip_lat = ((request.location.loc || "").splice(",")[0] || "")
+                data.callingip_long = ((request.location.loc || "").splice(",")[1] || "")
+                data.reportedip = (node.ipaddress || "")
+                data.bthaddress = (node.address || "")
+                data.blockheight = (node.nodestats_getinfo || {}).blocks || 0
+                data.nodetype = node.nodetype;
+                query("INSERT INTO bth_nodes SET ? ON DUPLICATE KEY UPDATE ipid = VALUES(ipid),callingip = VALUES(callingip),callingip_country = VALUES(callingip_country),callingip_state = VALUES(callingip_state),callingip_lat = VALUES(callingip_lat),callingip_long = VALUES(callingip_long),reportedip = VALUES(reportedip),bthaddress = VALUES(bthaddress),blockheight = VALUES(blockheight), nodetype = VALUES(nodetype), last_reported_on = NOW()", data, function() {
+                      console.log(arguments);
+                });
+          }
 
           return {"received": true};
 			}
