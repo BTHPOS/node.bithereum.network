@@ -86,7 +86,7 @@ var initialization = async function() {
           catch(e) {}
 
           var created_nodes = params.created_nodes instanceof Array ? params.created_nodes : [];
-          var existing_nodes = params.existing_nodes instanceof Array ? params.created_nodes : [];
+          var existing_nodes = params.existing_nodes instanceof Array ? params.existing_nodes : [];
 
 
           created_nodes = created_nodes.map(function(node) {
