@@ -1,4 +1,36 @@
-<section data-name="landing">
+<section data-name="landing" ng-controller="LandingController">
     <div class="holder">
+          <h1>Bithereum Node Map</h1>
+          <p>A list of Bithereum full nodes reporting their status using the <a href="javascript:void(0);" target="_blank">bithereum node tool</a>.</p>
+          <div id="map"></div>
+          <table>
+              <tr>
+                  <th>BTH ADDRESS</th>
+                  <th>LOCATION</th>
+                  <th>REGION</th>
+                  <th>NETWORK</th>
+                  <th>HEIGHT</th>
+                  <th>LAST SEEN</th>
+              </tr>
+              <tr ng-repeat="node in nodes">
+                  <td><a ng-href="http://explorer.bithereum.network/address/{{node.bthaddress}}" target="_blank">{{node.bthaddress}}</a></td>
+                  <td>
+                      <span>{{node.callingip}}:{{node.p2pport}}</span>
+                      <small>{{node.callingip_hostname}}</small>
+                  </td>
+                  <td>
+                      <span>{{getCountryName(node.callingip_country)}}</span>
+                      <small>{{node.callingip_city}}, {{node.callingip_region}}</small>
+                  </td>
+                  <td>
+                      <span>{{node.callingip_org.replace(node.callingip_org.split(" ")[0], '')}}</span>
+                      <small>{{node.callingip_org.split(" ")[0]}}</small>
+                  </td>
+                  <td>{{node.blockheight}}</td>
+                  <td>
+                      <small>{{fromNow(node.last_reported_on)}}</small>
+                  </td>
+              </tr>
+          </table>
     </div>
 </section>

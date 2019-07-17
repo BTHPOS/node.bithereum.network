@@ -38,35 +38,20 @@
     {{/block}}
     <script src="//code.jquery.com/jquery-latest.min.js"></script>
     <script>window.jQuery || document.write('<script src="/assets/js/jquery/jquery-3.3.1.min.js"><\/script>')</script>
-    <script src="/assets/js/bitcoinjs/bitcoinjs.min.js"></script>
-    <script src="/assets/js/angular-1.6.9/angular.min.js"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
+    <script src="/assets/bower_components/datamaps/dist/datamaps.world.min.js"></script>
+    <script src="/assets/bower_components/moment/min/moment.min.js"></script>
+
+    <script src="/assets/js/angular-1.6.9//angular.min.js"></script>
     <script src="/assets/js/angular-1.6.9/angular-route.min.js"></script>
     <script src="/assets/js/angular-1.6.9/angular-sanitize.min.js"></script>
     <script src="/assets/js/app/controllers.js"></script>
     <script src="/assets/js/app/init.js"></script>
 
-    <script type="text/javascript" src="/assets/js/wallet/crypto-min.js"></script>
-    <script type="text/javascript" src="/assets/js/wallet/crypto-sha256.js"></script>
-    <script type="text/javascript" src="/assets/js/wallet/crypto-sha256-hmac.js"></script>
-    <script type="text/javascript" src="/assets/js/wallet/sha512.js"></script>
-    <script type="text/javascript" src="/assets/js/wallet/ripemd160.js"></script>
-    <script type="text/javascript" src="/assets/js/wallet/aes.js"></script>
-
-    <script type="text/javascript" src="/assets/js/wallet/qrcode.js"></script>
-    <script type="text/javascript" src="/assets/js/wallet/qcode-decoder.min.js"></script>
-    <script type="text/javascript" src="/assets/js/wallet/jsbn.js"></script>
-    <script type="text/javascript" src="/assets/js/wallet/ellipticcurve.js"></script>
-
-    <script type="text/javascript" src="/assets/js/wallet/coin.js"></script>
-    <script type="text/javascript" src="/assets/js/wallet/asciihex.js"></script>
+    <script src="/assets/js/bitcoinjs/bitcoinjs.min.js"></script>
 
     {{#block "scripts"}}{{/block}}
-    <script async src="//www.googletagmanager.com/gtag/js?id=UA-131141421-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-131141421-1');
-    </script>
 </body>
 </html>

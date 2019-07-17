@@ -1,0 +1,23 @@
+{
+  "name": "nodes",
+  "homepage": "https://github.com/BTHPOS/node.bithereum.network",
+  "authors": [
+    "Dondrey Taylor <dondrey.taylor@gmail.com>"
+  ],
+  "description": "Nodes",
+  "directory": "public/assets/bower_components",
+  "main": "",
+  "license": "MIT",
+  "private": false,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "datamaps": "^0.5.9",
+    "moment": "^2.24.0"
+  }
+}
