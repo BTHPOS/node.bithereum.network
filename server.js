@@ -124,8 +124,6 @@ var initialization = async function() {
           console.log(asn);
           console.log("City -->")
           console.log(city);
-          console.log("Country -->")
-          console.log(country);
 
           var created_nodes = params.created_nodes instanceof Array ? params.created_nodes : [];
           var existing_nodes = params.existing_nodes instanceof Array ? params.existing_nodes : [];
@@ -146,16 +144,16 @@ var initialization = async function() {
           for (var index in nodes) {
                 var node = nodes[index];
                 var data = {};
-                data.ipid = (request.location.ip || "").split(".").join("") + (node.rpcport || "") + (node.p2pport || "") + (node.address || "")
-                data.callingip = (request.location.ip || "")
-                data.callingip_country = (request.location.country || "")
-                data.callingip_region = (request.location.region || "")
-                data.callingip_lat = ((request.location.loc || "").split(",")[0] || "")
-                data.callingip_long = ((request.location.loc || "").split(",")[1] || "")
-                data.callingip_hostname = (request.location.hostname || "")
-                data.callingip_city = (request.location.city || "")
-                data.callingip_postal = (request.location.postal || "")
-                data.callingip_org = (request.location.org || "")
+                data.ipid = (ipaddress || "").split(".").join("") + (node.rpcport || "") + (node.p2pport || "") + (node.address || "")
+                data.callingip = (ipaddress || "")
+                data.callingip_country = (city.country.names.en || "")
+                data.callingip_region = city.city ? (city.city.names.en || "") : city.continent ? (city.continent.names.en || "") : ""
+                data.callingip_lat = city.city ? (city.city.location.latitude || "") : (city.location.latitude || "")
+                data.callingip_long = city.city ? (city.city.location.longitude || "") : (city.location.longitude || "")
+                data.callingip_timezone = city.city ? (city.city.location.timezone || "") : (city.location.timezone || "")
+                data.callingip_city = city.city ? (city.city.names.en || "") : ""
+                data.callingip_postal = city.city ? (city.city.postal.code || "") : ""
+                data.callingip_org = (asn.autonomous_system_number || "") + " " + (asn.autonomous_system_organization || "")
                 data.reportedip = (node.ipaddress || "")
                 data.rpcport = (node.rpcport || "")
                 data.p2pport = (node.p2pport || "")
