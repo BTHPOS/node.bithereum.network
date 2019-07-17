@@ -120,8 +120,11 @@ var initialization = async function() {
           var country = countrylookup.get(ipaddress);
 
           console.log("============================")
+          console.log("ASN -->")
           console.log(asn);
+          console.log("City -->")
           console.log(city);
+          console.log("Country -->")
           console.log(country);
 
           var created_nodes = params.created_nodes instanceof Array ? params.created_nodes : [];
