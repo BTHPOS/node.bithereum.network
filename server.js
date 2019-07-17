@@ -9,9 +9,20 @@ var got 		= require('got');
 
 var geolite2 = require('geolite2');
 var maxmind = require('maxmind');
-var citylookup = maxmind.open(geolite2.paths.city);
-var countrylookup = maxmind.open(geolite2.paths.country);
-var asnlookup = maxmind.open(geolite2.paths.asn);
+
+var citylookup = {};
+var countrylookup = {};
+var asnlookup = {};
+
+maxmind.open(geolite2.paths.city).then(function(result) {
+    citylookup = result;
+});
+maxmind.open(geolite2.paths.country).then(function(result) {
+    countrylookup = result;
+});
+maxmind.open(geolite2.paths.asn).then(function(result) {
+    asnlookup = result;
+});
 
 // Template Engine
 var Handlerbars = require('handlebars');
