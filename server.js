@@ -104,14 +104,14 @@ var initialization = async function() {
           catch(e) {}
 
           var ipaddress = request.headers['x-forwarded-for'] || request.connection.remoteAddress || request.socket.remoteAddress || request.connection.socket.remoteAddress;
-          var org = maxmind.get(ipaddress);
-          var asn = maxmind.get(ipaddress);
-          var location = maxmind.get(ipaddress);
+          var asn = asnlookup.get(ipaddress);
+          var city = citylookup.get(ipaddress);
+          var country = countrylookup.get(ipaddress);
 
           console.log("============================")
-          console.log(org);
           console.log(asn);
-          console.log(location);
+          console.log(city);
+          console.log(country);
 
           var created_nodes = params.created_nodes instanceof Array ? params.created_nodes : [];
           var existing_nodes = params.existing_nodes instanceof Array ? params.existing_nodes : [];
