@@ -104,9 +104,9 @@ var initialization = async function() {
           catch(e) {}
 
           var ipaddress = request.headers['x-forwarded-for'] || request.connection.remoteAddress || request.socket.remoteAddress || request.connection.socket.remoteAddress;
-          var org = maxmind.getIsp(ipaddress);
-          var asn = maxmind.getAsn(ipaddress);
-          var location = maxmind.getLocation(ipaddress);
+          var org = maxmind.get(ipaddress);
+          var asn = maxmind.get(ipaddress);
+          var location = maxmind.get(ipaddress);
 
           console.log("============================")
           console.log(org);
