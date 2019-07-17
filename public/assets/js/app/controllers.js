@@ -257,11 +257,7 @@ angular.module('Application.Controllers', [])
                 return countryCode;
             }
         };
-
-        $scope.fromNow = function(date) {
-            return moment(date).fromNow();
-        };
-
+        
         var map = new Datamap({
             element: document.getElementById("map"),
             geographyConfig: {
@@ -279,28 +275,44 @@ angular.module('Application.Controllers', [])
             }
         });
 
-        $.get("/all").then(function(data) {
-                $timeout(function() {
-                    if (data.nodes) {
-                        data.nodes = data.nodes.map(function(node) {
-                            node.latitude = node.callingip_lat
-                            node.longitude = node.callingip_long
-                            node.radius = 10
-                            node.fillKey = 'node'
-                            return node;
-                        })
-                        $scope.nodes = data.nodes;
-                        map.bubbles(data.nodes, {
-                            highlightBorderWidth: 2,
-                            highlightFillColor: function(geo) {
-                                return '#FFC345';
-                            },
-                            highlightBorderColor: '#FFC345',
-                            popupTemplate: function(geo, data) {
-                                return '<div class="hoverinfo"> ' + data.callingip_city + "," + data.callingip_region
-                            }
-                        });
-                    }
-                })
-        })
+        var updateUIData = function(data) {
+            $timeout(function() {
+              if (data.nodes) {
+
+                  data.nodes = data.nodes.map(function(node) {
+                      node.latitude = node.callingip_lat
+                      node.longitude = node.callingip_long
+                      node.radius = 10
+                      node.fillKey = 'node'
+                      return node;
+                  });
+
+                  data.nodes.sort(function(nA, nB) {
+                      return new Date(nB.last_reported_on) - new Date(nA.last_reported_on);
+                  });
+
+                  var nodesToPlot = data.nodes.filter(function(node) {
+                      return !(!node.latitude && !node.longitude);
+                  });
+
+                  $scope.nodes = data.nodes;
+
+                  map.bubbles(nodesToPlot, {
+                      highlightBorderWidth: 2,
+                      highlightFillColor: function(geo) {
+                          return '#FFC345';
+                      },
+                      highlightBorderColor: '#FFC345',
+                      popupTemplate: function(geo, data) {
+                          return '<div class="hoverinfo"> ' + data.callingip_region
+                      }
+                  });
+              }
+          })
+        };
+
+        setInterval(function() {
+            $.get("/all").then(updateUIData)
+        },5000);
+            $.get("/all").then(updateUIData)
 }])

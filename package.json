@@ -18,6 +18,7 @@
     "hapi-geo-locate": "^3.1.4",
     "inert": "^5.1.0",
     "maxmind": "^3.1.2",
+    "moment": "^2.24.0",
     "mysql": "^2.16.0",
     "redbird": "^0.9.0",
     "vision": "^5.3.2"

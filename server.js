@@ -7,8 +7,9 @@ var Vision 	= require('vision');
 var Inert 	= require('inert');
 var got 		= require('got');
 
-var geolite2 = require('geolite2');
-var maxmind = require('maxmind');
+var geolite2  = require('geolite2');
+var maxmind   = require('maxmind');
+var moment    = require("moment");
 
 var citylookup = {};
 var countrylookup = {};
@@ -96,8 +97,13 @@ var initialization = async function() {
 			{
           return new Promise(function(resolve, reject) {
               query("SELECT * FROM bth_nodes WHERE 1", [], function(err, rows) {
-                    if (!err) resolve({nodes: rows});
-                    else resolve({nodes:[]})
+                    if (!err) {
+                      rows = rows.map(function(row) {
+                          row.last_reported_on_formatted = moment(row.last_reported_on).fromNow();
+                          return row;
+                      });
+                      resolve({nodes: rows});
+                    } else resolve({nodes:[]})
               });
           });
       }
