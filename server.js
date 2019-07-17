@@ -6,7 +6,12 @@ var Hapi    = require('hapi');
 var Vision 	= require('vision');
 var Inert 	= require('inert');
 var got 		= require('got');
-var GeoLocation = require('hapi-geo-locate');
+
+var geolite2 = require('geolite2');
+var maxmind = require('maxmind');
+var citylookup = maxmind.open(geolite2.paths.city);
+var countrylookup = maxmind.open(geolite2.paths.country);
+var asnlookup = maxmind.open(geolite2.paths.asn);
 
 // Template Engine
 var Handlerbars = require('handlebars');
@@ -51,7 +56,6 @@ var initialization = async function() {
 	// Register modules
 	await server.register(Vision);
 	await server.register(Inert);
-	await server.register(GeoLocation);
 
 	// Setup view rendering
 	server.views({
@@ -99,10 +103,15 @@ var initialization = async function() {
           }
           catch(e) {}
 
-          console.log("====================================================================");
-          console.log(request.location)
-          console.log(request.payload);
-          console.log(params);
+          var ipaddress = request.headers['x-forwarded-for'] || request.connection.remoteAddress || request.socket.remoteAddress || request.connection.socket.remoteAddress;
+          var org = maxmind.getIsp(ipaddress);
+          var asn = maxmind.getAsn(ipaddress);
+          var location = maxmind.getLocation(ipaddress);
+
+          console.log("============================")
+          console.log(org);
+          console.log(asn);
+          console.log(location);
 
           var created_nodes = params.created_nodes instanceof Array ? params.created_nodes : [];
           var existing_nodes = params.existing_nodes instanceof Array ? params.existing_nodes : [];
