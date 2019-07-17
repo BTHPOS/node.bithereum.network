@@ -99,9 +99,9 @@ var initialization = async function() {
           }
           catch(e) {}
 
-          console.log("\n");
+          console.log("====================================================================");
+          console.log(request.location)
           console.log(request.payload);
-          console.log("====");
           console.log(params);
 
           var created_nodes = params.created_nodes instanceof Array ? params.created_nodes : [];
