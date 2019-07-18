@@ -13,6 +13,9 @@ h1 {
   line-height: 1;
   font-size: 2.5rem;
   margin: 0 auto 0.5rem 0; }
+  @media (max-width: 50em) {
+    h1 {
+      font-size: 2rem; } }
 
 p {
   text-align: center;
@@ -34,12 +37,12 @@ a {
   @media (max-width: 50em) {
     #map {
       overflow: hidden;
-      height: 20rem; } }
+      height: 18rem; } }
 
 #stats {
   max-width: 64rem;
   text-align: center;
-  margin: 0 auto 4rem auto;
+  margin: 0 auto 3rem auto;
   padding: 2rem 0; }
   #stats .stat {
     max-width: 20rem;
