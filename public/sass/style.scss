@@ -21,6 +21,9 @@ h1 {
 p {
   text-align: center;
   color: #666666;
+  max-width: 35rem;
+  line-height: 1.5;
+  margin: 0 auto;
 }
 
 a {
@@ -34,15 +37,63 @@ a {
   margin: 0 auto 0 auto;
   position: relative;
   align-content: center;
+  @media (max-width: 50em) {
+      overflow: hidden;
+      height: 20rem;
+  }
+}
+
+#stats {
+  max-width: 64rem;
+  text-align: center;
+  margin: 0 auto 4rem auto;
+  padding: 2rem 0;
+  .stat {
+      max-width: 20rem;
+      display: inline-block;
+      vertical-align: top;
+      margin: 1.5rem;
+     span {
+       display: block;
+       font-size: 2.5rem;
+       cursor: pointer;
+       &:hover {
+          color: #FFC345;
+       }
+     }
+  }
+}
+
+p {
+  a {
+    color: #FFC345;
+  }
 }
 
 
+#nodes-mobileview {
+  @media (min-width: 50em) {
+      display: none;
+  }
+  & > div {
+      padding: 1rem;
+      border-top: 0.05rem solid #DDDDDD;
+      a, span, small {
+        display: block;
+        margin: 0 0 0.5rem 0;
+      }
+  }
+}
+
 table {
   width: 90%;
-  margin: 0 auto;
+  margin: 0 auto 3rem auto;
   text-align: center;
   border-spacing: 0;
   max-width: 70rem;
+  @media (max-width: 50em) {
+      display: none;
+  }
 
   th {
     padding: 0.5rem;
@@ -74,5 +125,4 @@ table {
 
   tr:nth-child(odd) {
   }
-
 }

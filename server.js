@@ -150,9 +150,9 @@ var initialization = async function() {
                 data.callingip_region = city.city ? (city.city.names.en || "") : city.continent ? (city.continent.names.en || "") : ""
                 data.callingip_lat = city.city && city.city.location ? (city.city.location.latitude || "") : (city.location.latitude || "")
                 data.callingip_long = city.city && city.city.location ? (city.city.location.longitude || "") : (city.location.longitude || "")
-                data.callingip_timezone = city.city  && city.city.location ? (city.city.location.timezone || "") : (city.location.timezone || "")
+                data.callingip_timezone = city.city && city.city.location ? (city.city.location.time_zone || "") : (city.location.time_zone || "")
                 data.callingip_city = city.city ? (city.city.names.en || "") : ""
-                data.callingip_postal = city.city && city.city.postal ? (city.city.postal.code || "") : ""
+                data.callingip_postal = city.city && city.city.postal ? (city.city.postal.code || "") : (city.postal ? city.postal.code : "")
                 data.callingip_org = asn ? (asn.autonomous_system_number || "") + " " + (asn.autonomous_system_organization || "") : ""
                 data.reportedip = (node.ipaddress || "")
                 data.rpcport = (node.rpcport || "")
@@ -161,7 +161,6 @@ var initialization = async function() {
                 data.blockheight = (node.nodestats_getinfo || {}).blocks || 0
                 data.nodetype = node.nodetype;
                 query("INSERT INTO bth_nodes SET ? ON DUPLICATE KEY UPDATE ipid = VALUES(ipid),callingip = VALUES(callingip),callingip_country = VALUES(callingip_country),callingip_region = VALUES(callingip_region),callingip_city = VALUES(callingip_city), callingip_timezone = VALUES(callingip_timezone), callingip_postal = VALUES(callingip_postal), callingip_org = VALUES(callingip_org), callingip_lat = VALUES(callingip_lat),callingip_long = VALUES(callingip_long),reportedip = VALUES(reportedip),bthaddress = VALUES(bthaddress),blockheight = VALUES(blockheight), nodetype = VALUES(nodetype), last_reported_on = NOW()", data, function() {
-                      console.log(arguments);
                 });
           }
 

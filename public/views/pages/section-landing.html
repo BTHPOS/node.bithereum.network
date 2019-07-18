@@ -1,9 +1,23 @@
 <section data-name="landing" ng-controller="LandingController">
     <div class="holder">
           <h1>Bithereum Node Map</h1>
-          <p>A list of Bithereum full nodes reporting their status using the <a href="javascript:void(0);" target="_blank">bithereum node tool</a>.</p>
+          <p>A list of Bithereum full nodes reporting their status using the <a href="https://github.com/BTHPOS/node-management-tool" target="_blank">bithereum node tool</a>. All information on this page updates every 5 seconds.</p>
           <div id="map"></div>
-          <table>
+          <div id="stats">
+              <div class="stat">
+                  <span>{{nodes.length}}</span>
+                  <small>nodes reporting data</small>
+              </div>
+              <div class="stat">
+                  <span>{{getUniqueCountries(nodes).length}}</span>
+                  <small>countries with nodes</small>
+              </div>
+              <div class="stat">
+                  <span>{{getHighestBlockCount(nodes)}}</span>
+                  <small>highest block reported</small>
+              </div>
+          </div>
+          <table id="nodes-desktopview">
               <tr>
                   <th>BTH ADDRESS</th>
                   <th>LOCATION</th>
@@ -15,15 +29,16 @@
               <tr ng-repeat="node in nodes">
                   <td><a ng-href="http://explorer.bithereum.network/address/{{node.bthaddress}}" target="_blank">{{node.bthaddress}}</a></td>
                   <td>
-                      <span>{{node.callingip}}:{{node.p2pport}}</span>
-                      <small>{{node.callingip_hostname}}</small>
+                      <span>{{node.callingip || "::ffff:0.0.0.0"}}:{{node.p2pport}}</span>
+                      <small>{{node.callingip_timezone}}</small>
                   </td>
                   <td>
-                      <span>{{getCountryName(node.callingip_country)}}</span>
-                      <small>{{node.callingip_city}}, {{node.callingip_region}}</small>
+                      <span>{{getCountryName(node.callingip_country) || "Not Reported"}}</span>
+                      <small ng-show="!node.callingip_city">{{node.callingip_region}}</small>
+                      <small ng-show="node.callingip_city && node.callingip_city != node.callingip_region">{{node.callingip_city}}, {{node.callingip_region}}</small>
                   </td>
                   <td>
-                      <span>{{node.callingip_org.replace(node.callingip_org.split(" ")[0], '')}}</span>
+                      <span>{{node.callingip_org.replace(node.callingip_org.split(" ")[0], '') || "Not Reported"}}</span>
                       <small>{{node.callingip_org.split(" ")[0]}}</small>
                   </td>
                   <td>{{node.blockheight}}</td>
@@ -32,5 +47,20 @@
                   </td>
               </tr>
           </table>
+          <div id="nodes-mobileview">
+              <div ng-repeat="node in nodes">
+                  <a ng-href="http://explorer.bithereum.network/address/{{node.bthaddress}}" target="_blank">{{node.bthaddress}}</a>
+                  <span>{{node.callingip || "::ffff:0.0.0.0"}}:{{node.p2pport}}</span>
+                  <small>{{node.callingip_timezone}}</small>
+                  <small>{{getCountryName(node.callingip_country) || "Not Reported"}}</small>
+                  <small ng-show="!node.callingip_city">{{node.callingip_region}}</small>
+                  <small ng-show="node.callingip_city && node.callingip_city != node.callingip_region">{{node.callingip_city}}, {{node.callingip_region}}</small>
+                  <small>{{node.callingip_org.replace(node.callingip_org.split(" ")[0], '') || "Not Reported"}}</small>
+                  <small>ASN: {{node.callingip_org.split(" ")[0]}}</small>
+                  <small>Block Height: {{node.blockheight}}</small>
+                  <small>Last reported {{node.last_reported_on_formatted}}</small>
+              </div>
+          </div>
+          <p>Visit the <a href="https://bithereum.network" target="_blank">official Bithereum site</a> for more information</p>
     </div>
 </section>

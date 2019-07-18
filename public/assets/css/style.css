@@ -16,7 +16,10 @@ h1 {
 
 p {
   text-align: center;
-  color: #666666; }
+  color: #666666;
+  max-width: 35rem;
+  line-height: 1.5;
+  margin: 0 auto; }
 
 a {
   color: #1D2631; }
@@ -28,13 +31,50 @@ a {
   margin: 0 auto 0 auto;
   position: relative;
   align-content: center; }
+  @media (max-width: 50em) {
+    #map {
+      overflow: hidden;
+      height: 20rem; } }
+
+#stats {
+  max-width: 64rem;
+  text-align: center;
+  margin: 0 auto 4rem auto;
+  padding: 2rem 0; }
+  #stats .stat {
+    max-width: 20rem;
+    display: inline-block;
+    vertical-align: top;
+    margin: 1.5rem; }
+    #stats .stat span {
+      display: block;
+      font-size: 2.5rem;
+      cursor: pointer; }
+      #stats .stat span:hover {
+        color: #FFC345; }
+
+p a {
+  color: #FFC345; }
+
+@media (min-width: 50em) {
+  #nodes-mobileview {
+    display: none; } }
+#nodes-mobileview > div {
+  padding: 1rem;
+  border-top: 0.05rem solid #DDDDDD; }
+  #nodes-mobileview > div a, #nodes-mobileview > div span, #nodes-mobileview > div small {
+    display: block;
+    margin: 0 0 0.5rem 0; }
 
 table {
   width: 90%;
-  margin: 0 auto;
+  margin: 0 auto 3rem auto;
   text-align: center;
   border-spacing: 0;
   max-width: 70rem; }
+  @media (max-width: 50em) {
+    table {
+      display: none; } }
   table th {
     padding: 0.5rem;
     font-size: 0.9rem; }

@@ -257,7 +257,27 @@ angular.module('Application.Controllers', [])
                 return countryCode;
             }
         };
-        
+
+        $scope.getUniqueCountries = function(nodes) {
+            var countries = [];
+            for (var node in nodes) {
+                if (nodes[node].callingip_country && countries.indexOf(nodes[node].callingip_country) == -1) {
+                    countries.push(nodes[node].callingip_country)
+                }
+            }
+            return countries;
+        };
+
+        $scope.getHighestBlockCount = function(nodes) {
+            var block = 0;
+            for (var node in nodes) {
+                if (nodes[node].blockheight > block) {
+                    block = nodes[node].blockheight;
+                }
+            }
+            return block;
+        };
+
         var map = new Datamap({
             element: document.getElementById("map"),
             geographyConfig: {
