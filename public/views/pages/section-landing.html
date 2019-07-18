@@ -57,7 +57,7 @@
                   <small ng-show="node.callingip_city && node.callingip_city != node.callingip_region">{{node.callingip_city}}, {{node.callingip_region}}</small>
                   <small>{{node.callingip_org.replace(node.callingip_org.split(" ")[0], '') || "Not Reported"}}</small>
                   <small>ASN: {{node.callingip_org.split(" ")[0]}}</small>
-                  <small>Block Height: {{node.blockheight}}</small>
+                  <small>Block Height: {{node.blockheight || "--"}}</small>
                   <small>Last reported {{node.last_reported_on_formatted}}</small>
               </div>
           </div>

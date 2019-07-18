@@ -34,10 +34,10 @@ HandlebarsLayouts.register(Handlerbars);
 var mysql      = require('mysql');
 var pool = mysql.createPool({
     connectionLimit : 10,
-    host     : 'chaindata.bithereum.network',
-    user     : 'root',
-    password : 'btcinnovations1923!',
-    database : 'chaindata'
+    host     : '',
+    user     : '',
+    password : '',
+    database : ''
 });
 
 // Query helper function
