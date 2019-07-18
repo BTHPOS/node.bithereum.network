@@ -41,7 +41,7 @@
                       <span>{{node.callingip_org.replace(node.callingip_org.split(" ")[0], '') || "Not Reported"}}</span>
                       <small>{{node.callingip_org.split(" ")[0]}}</small>
                   </td>
-                  <td>{{node.blockheight}}</td>
+                  <td>{{node.blockheight || "--"}}</td>
                   <td>
                       <small>{{node.last_reported_on_formatted}}</small>
                   </td>
