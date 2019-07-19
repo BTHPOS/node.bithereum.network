@@ -7,23 +7,23 @@ var Vision 	= require('vision');
 var Inert 	= require('inert');
 var got 		= require('got');
 
-// var geolite2  = require('geolite2');
-// var maxmind   = require('maxmind');
+var geolite2  = require('geolite2');
+var maxmind   = require('maxmind');
 var moment    = require("moment");
 
-// var citylookup = {};
-// var countrylookup = {};
-// var asnlookup = {};
-//
-// maxmind.open(geolite2.paths.city).then(function(result) {
-//     citylookup = result;
-// });
-// maxmind.open(geolite2.paths.country).then(function(result) {
-//     countrylookup = result;
-// });
-// maxmind.open(geolite2.paths.asn).then(function(result) {
-//     asnlookup = result;
-// });
+var citylookup = {};
+var countrylookup = {};
+var asnlookup = {};
+
+maxmind.open(geolite2.paths.city).then(function(result) {
+    citylookup = result;
+});
+maxmind.open(geolite2.paths.country).then(function(result) {
+    countrylookup = result;
+});
+maxmind.open(geolite2.paths.asn).then(function(result) {
+    asnlookup = result;
+});
 
 // Template Engine
 var Handlerbars = require('handlebars');
@@ -34,10 +34,10 @@ HandlebarsLayouts.register(Handlerbars);
 var mysql      = require('mysql');
 var pool = mysql.createPool({
   connectionLimit : 10,
-  host     : 'chaindata.bithereum.network',
-  user     : 'root',
-  password : 'btcinnovations1923!',
-  database : 'chaindata'
+  host     : '',
+  user     : '',
+  password : '',
+  database : ''
 });
 
 // Query helper function
