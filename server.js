@@ -7,23 +7,23 @@ var Vision 	= require('vision');
 var Inert 	= require('inert');
 var got 		= require('got');
 
-var geolite2  = require('geolite2');
-var maxmind   = require('maxmind');
+// var geolite2  = require('geolite2');
+// var maxmind   = require('maxmind');
 var moment    = require("moment");
 
-var citylookup = {};
-var countrylookup = {};
-var asnlookup = {};
-
-maxmind.open(geolite2.paths.city).then(function(result) {
-    citylookup = result;
-});
-maxmind.open(geolite2.paths.country).then(function(result) {
-    countrylookup = result;
-});
-maxmind.open(geolite2.paths.asn).then(function(result) {
-    asnlookup = result;
-});
+// var citylookup = {};
+// var countrylookup = {};
+// var asnlookup = {};
+//
+// maxmind.open(geolite2.paths.city).then(function(result) {
+//     citylookup = result;
+// });
+// maxmind.open(geolite2.paths.country).then(function(result) {
+//     countrylookup = result;
+// });
+// maxmind.open(geolite2.paths.asn).then(function(result) {
+//     asnlookup = result;
+// });
 
 // Template Engine
 var Handlerbars = require('handlebars');
@@ -33,11 +33,11 @@ HandlebarsLayouts.register(Handlerbars);
 // Initialize MySQL
 var mysql      = require('mysql');
 var pool = mysql.createPool({
-    connectionLimit : 10,
-    host     : '',
-    user     : '',
-    password : '',
-    database : ''
+  connectionLimit : 10,
+  host     : 'chaindata.bithereum.network',
+  user     : 'root',
+  password : 'btcinnovations1923!',
+  database : 'chaindata'
 });
 
 // Query helper function
@@ -89,6 +89,27 @@ var initialization = async function() {
 					return reply.view('embed-base', {});
 			}
 	});
+
+	server.route({
+			method: 'GET',
+			path: '/uptime',
+			handler: function(request, reply)
+			{
+          var address = request.query.bthaddress
+          return new Promise(function(resolve, reject) {
+              query("SELECT * FROM bth_nodes WHERE bthaddress = ?", [address], function(err, rows) {
+                    if (!err) {
+                      rows = rows.map(function(row) {
+                          row.last_reported_on_formatted = moment(row.last_reported_on).fromNow();
+                          row.isup = row.last_reported_on_formatted == "a few seconds ago";
+                          return row;
+                      });
+                      resolve({nodes: rows});
+                    } else resolve({nodes:[]})
+              });
+          });
+      }
+  });
 
 	server.route({
 			method: 'GET',
