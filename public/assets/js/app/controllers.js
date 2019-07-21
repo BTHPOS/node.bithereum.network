@@ -315,15 +315,15 @@ angular.module('Application.Controllers', [])
 
                   $scope.nodes = data.nodes;
 
-                  var _nodesToPlot = data.nodes.filter(function(node) {
+                  var nodesToPlot = data.nodes.filter(function(node) {
                       return !(!node.latitude && !node.longitude);
                   });
 
-                  if (nodesToPlot.length == 0 || nodesToPlot.length != data.nodes.length) {
+                  if (nodesToPlot.length == 0 || nodesPlotted.length != nodesToPlot.length) {
 
-                        nodesPlotted = _nodesToPlot;
+                        nodesPlotted = nodesToPlot;
 
-                        map.bubbles(_nodesToPlot, {
+                        map.bubbles(nodesToPlot, {
                             highlightBorderWidth: 2,
                             highlightFillColor: function(geo) {
                                 return '#FFC345';
