@@ -295,6 +295,7 @@ angular.module('Application.Controllers', [])
             }
         });
 
+        var nodesPlotted = [];
         var updateUIData = function(data) {
             $timeout(function() {
               if (data.nodes) {
@@ -311,22 +312,28 @@ angular.module('Application.Controllers', [])
                       return new Date(nB.last_reported_on) - new Date(nA.last_reported_on);
                   });
 
-                  var nodesToPlot = data.nodes.filter(function(node) {
-                      return !(!node.latitude && !node.longitude);
-                  });
 
                   $scope.nodes = data.nodes;
 
-                  map.bubbles(nodesToPlot, {
-                      highlightBorderWidth: 2,
-                      highlightFillColor: function(geo) {
-                          return '#FFC345';
-                      },
-                      highlightBorderColor: '#FFC345',
-                      popupTemplate: function(geo, data) {
-                          return '<div class="hoverinfo"> ' + data.callingip_region
-                      }
+                  var _nodesToPlot = data.nodes.filter(function(node) {
+                      return !(!node.latitude && !node.longitude);
                   });
+
+                  if (nodesToPlot.length == 0 || nodesToPlot.length != data.nodes.length) {
+
+                        nodesPlotted = _nodesToPlot;
+
+                        map.bubbles(_nodesToPlot, {
+                            highlightBorderWidth: 2,
+                            highlightFillColor: function(geo) {
+                                return '#FFC345';
+                            },
+                            highlightBorderColor: '#FFC345',
+                            popupTemplate: function(geo, data) {
+                                return '<div class="hoverinfo"> ' + data.callingip_region
+                            }
+                        });
+                  }
               }
           })
         };

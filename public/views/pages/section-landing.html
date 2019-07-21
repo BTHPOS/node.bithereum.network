@@ -29,7 +29,8 @@
               <tr ng-repeat="node in nodes">
                   <td><a ng-href="http://explorer.bithereum.network/address/{{node.bthaddress}}" target="_blank">{{node.bthaddress}}</a></td>
                   <td>
-                      <span>{{node.callingip || "::ffff:0.0.0.0"}}:{{node.p2pport}}</span>
+                      <span>NODE TOOl: {{node.callingip || "::ffff:0.0.0.0"}}</span>
+                      <span>NODE IP: {{node.reportedip || "::ffff:0.0.0.0"}}:{{node.p2pport}}</span>
                       <small>{{node.callingip_timezone}}</small>
                   </td>
                   <td>
