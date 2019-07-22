@@ -340,7 +340,7 @@ angular.module('Application.Controllers', [])
         };
 
         setInterval(function() {
-            $.get("http://node.bithereum.network/all").then(updateUIData)
+            $.get("/all").then(updateUIData)
         },5000);
-            $.get("http://node.bithereum.network/all").then(updateUIData)
+            $.get("/all").then(updateUIData)
 }])
