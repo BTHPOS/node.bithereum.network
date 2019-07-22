@@ -4,11 +4,6 @@ var got = require('got');
 // Database connection
 let mysql      = require('mysql');
 let pool = mysql.createPool({
-    connectionLimit : 10,
-    host     : 'chaindata.bithereum.network',
-    user     : 'root',
-    password : 'btcinnovations1923!',
-    database : 'chaindata'
 });
 
 let query = function(query, data, callback) {
