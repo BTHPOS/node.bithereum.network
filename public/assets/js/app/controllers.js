@@ -316,8 +316,20 @@ angular.module('Application.Controllers', [])
 
                   $scope.nodes = data.nodes;
 
-                  var nodesToPlot = data.nodes.filter(function(node) {
+                  var nodesToPlot = JSON.parse(JSON.stringify(data.nodes)).filter(function(node) {
                       return !(!node.latitude && !node.longitude);
+                  });
+
+                  nodesToPlot = nodesToPlot.map(function(node) {
+                        delete node.callingip_timezone
+                        delete node.callingip_postal
+                        delete node.callingip_org
+                        delete node.nodetool_identifier
+                        delete node.nodetool_version
+                        delete node.nodetool_os
+                        delete node.added_on
+                        delete node.reportedip
+                        return node;
                   });
 
                   if (window.nodesPlotted.length == 0 || (window.nodesPlotted.length != nodesToPlot.length && window.nodesPlotted.length != window.nodesToPlotLimit) ) {
