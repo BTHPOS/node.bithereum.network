@@ -319,7 +319,7 @@ angular.module('Application.Controllers', [])
                       return !(!node.latitude && !node.longitude);
                   });
 
-                  if (nodesToPlot.length == 0 || nodesPlotted.length != nodesToPlot.length) {
+                  if (nodesPlotted.length == 0 || nodesPlotted.length != nodesToPlot.length) {
 
                         nodesPlotted = nodesToPlot;
 
