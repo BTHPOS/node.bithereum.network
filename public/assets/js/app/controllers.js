@@ -295,7 +295,7 @@ angular.module('Application.Controllers', [])
             }
         });
 
-        window.nodesToPlotLimit = 0
+        window.nodesToPlotLimit = 100
         window.nodesPlotted = [];
         window.updateUIData = function(data) {
             $timeout(function() {
