@@ -295,8 +295,8 @@ angular.module('Application.Controllers', [])
             }
         });
 
-        var nodesPlotted = [];
-        var updateUIData = function(data) {
+        window.nodesPlotted = [];
+        window.updateUIData = function(data) {
             $timeout(function() {
               if (data.nodes) {
 
@@ -319,9 +319,10 @@ angular.module('Application.Controllers', [])
                       return !(!node.latitude && !node.longitude);
                   });
 
-                  if (nodesPlotted.length == 0 || nodesPlotted.length != nodesToPlot.length) {
+                  if (window.nodesPlotted.length == 0 || window.nodesPlotted.length != nodesToPlot.length) {
 
-                        nodesPlotted = nodesToPlot;
+                        window.nodesPlotted = nodesToPlot;
+                        console.log("Plotting", window.nodesPlotted.length, "nodes");
 
                         map.bubbles(nodesToPlot, {
                             highlightBorderWidth: 2,
@@ -339,7 +340,7 @@ angular.module('Application.Controllers', [])
         };
 
         setInterval(function() {
-            $.get("/all").then(updateUIData)
+            $.get("/all").then(window.updateUIData)
         },5000);
-            $.get("/all").then(updateUIData)
+            $.get("/all").then(window.updateUIData)
 }])
