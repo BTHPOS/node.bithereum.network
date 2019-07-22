@@ -295,9 +295,9 @@ angular.module('Application.Controllers', [])
             }
         });
 
-        window.nodesToPlotLimit = 100
+        window.nodesToPlotLimit = 0
         window.nodesPlotted = [];
-        window.updateUIData = function(data) {
+        var updateUIData = function(data) {
             $timeout(function() {
               if (data.nodes) {
 
@@ -313,35 +313,18 @@ angular.module('Application.Controllers', [])
                       return new Date(nB.last_reported_on) - new Date(nA.last_reported_on);
                   });
 
-
                   $scope.nodes = data.nodes;
 
-                  var nodesToPlot = JSON.parse(JSON.stringify(data.nodes)).filter(function(node) {
-                      return !(!node.latitude && !node.longitude);
+                  data.nodes = data.nodes.filter(function(node) {
+                      return node.latitude && node.longitude;
                   });
 
-                  nodesToPlot = nodesToPlot.map(function(node) {
-                        delete node.callingip_timezone
-                        delete node.callingip_postal
-                        delete node.callingip_org
-                        delete node.nodetool_identifier
-                        delete node.nodetool_version
-                        delete node.nodetool_os
-                        delete node.added_on
-                        delete node.reportedip
-                        return node;
-                  });
+                  if (window.nodesPlotted.length == 0 || (window.nodesPlotted.length != data.nodes.length && window.nodesPlotted.length != window.nodesToPlotLimit) ) {
 
-                  if (window.nodesPlotted.length == 0 || (window.nodesPlotted.length != nodesToPlot.length && window.nodesPlotted.length != window.nodesToPlotLimit) ) {
+                        window.nodesPlotted = data.nodes;
+                        console.log("Plotting", data.nodes.length, "nodes");
 
-                        if (window.nodesToPlotLimit > 0) {
-                            nodesToPlot = nodesToPlot.splice(0, window.nodesToPlotLimit);
-                        }
-
-                        window.nodesPlotted = nodesToPlot;
-                        console.log("Plotting", window.nodesPlotted.length, "nodes");
-
-                        map.bubbles(nodesToPlot, {
+                        map.bubbles(data.nodes, {
                             highlightBorderWidth: 2,
                             highlightFillColor: function(geo) {
                                 return '#FFC345';
@@ -357,7 +340,7 @@ angular.module('Application.Controllers', [])
         };
 
         setInterval(function() {
-            $.get("/all").then(window.updateUIData)
+            $.get("http://node.bithereum.network/all").then(updateUIData)
         },5000);
-            $.get("/all").then(window.updateUIData)
+            $.get("http://node.bithereum.network/all").then(updateUIData)
 }])
