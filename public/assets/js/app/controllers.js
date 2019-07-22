@@ -295,6 +295,7 @@ angular.module('Application.Controllers', [])
             }
         });
 
+        window.nodesToPlotLimit = 0
         window.nodesPlotted = [];
         window.updateUIData = function(data) {
             $timeout(function() {
@@ -320,6 +321,10 @@ angular.module('Application.Controllers', [])
                   });
 
                   if (window.nodesPlotted.length == 0 || window.nodesPlotted.length != nodesToPlot.length) {
+
+                        if (window.nodesToPlotLimit > 0) {
+                            nodesToPlot = nodesToPlot.splice(0, window.nodesToPlotLimit);
+                        }
 
                         window.nodesPlotted = nodesToPlot;
                         console.log("Plotting", window.nodesPlotted.length, "nodes");
