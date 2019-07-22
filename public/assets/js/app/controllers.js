@@ -320,7 +320,7 @@ angular.module('Application.Controllers', [])
                       return !(!node.latitude && !node.longitude);
                   });
 
-                  if (window.nodesPlotted.length == 0 || window.nodesPlotted.length != nodesToPlot.length) {
+                  if (window.nodesPlotted.length == 0 || (window.nodesPlotted.length != nodesToPlot.length && window.nodesPlotted.length != window.nodesToPlotLimit) ) {
 
                         if (window.nodesToPlotLimit > 0) {
                             nodesToPlot = nodesToPlot.splice(0, window.nodesToPlotLimit);
