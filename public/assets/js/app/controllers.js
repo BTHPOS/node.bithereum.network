@@ -302,8 +302,8 @@ angular.module('Application.Controllers', [])
               if (data.nodes) {
 
                   data.nodes = data.nodes.map(function(node) {
-                      node.latitude = node.callingip_lat
-                      node.longitude = node.callingip_long
+                      node.latitude = parseFloat(node.callingip_lat)
+                      node.longitude = parseFloat(node.callingip_long)
                       node.radius = 10
                       node.fillKey = 'node'
                       return node;
