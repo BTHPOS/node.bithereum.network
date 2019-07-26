@@ -339,8 +339,14 @@ angular.module('Application.Controllers', [])
           })
         };
 
+        var fetch = function() {
+            // let base = "http://node.bithereum.network";
+            let base = "";
+            $.get(base + "/all").then(updateUIData)
+        };
+
         setInterval(function() {
-            $.get("/all").then(updateUIData)
+            fetch();
         },5000);
-            $.get("/all").then(updateUIData)
+        fetch();
 }])
