@@ -401,8 +401,8 @@ angular.module('Application.Controllers', [])
         };
 
         var fetch = function() {
-            let base = "http://node.bithereum.network";
-            // let base = "";
+            // let base = "http://node.bithereum.network";
+            let base = "";
             $.get(base + "/all").then(updateUIData)
         };
 
