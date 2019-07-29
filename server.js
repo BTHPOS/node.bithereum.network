@@ -137,6 +137,7 @@ var initialization = async function() {
                     if (!err) {
                       rows = rows.map(function(row) {
                           row.last_reported_on_formatted = moment(row.last_reported_on).fromNow();
+                          row.isup = row.last_reported_on_formatted == "a few seconds ago";
                           return row;
                       });
                       resolve({nodes: rows});

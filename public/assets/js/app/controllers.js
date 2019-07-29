@@ -326,6 +326,7 @@ angular.module('Application.Controllers', [])
             $timeout(function() {
               if (data.nodes) {
 
+
                   $scope.tiers = [
                       {tier: 0, usd: 0, bthperweek:0.1, bthperyear:5.2},
                       {tier: 1, usd: 0.5, bthperweek:1, bthperyear:52},
@@ -337,7 +338,7 @@ angular.module('Application.Controllers', [])
 
                   let getTier = function(holding) {
                       holding = holding || 0;
-                      let holdingUSD = holding / $scope.BTHUSD;
+                      let holdingUSD = holding * $scope.BTHUSD;
                       for (var index in $scope.tiers) {
                           if (holdingUSD < $scope.tiers[index].usd) {
                               return $scope.tiers[index-1] || {};
@@ -363,6 +364,10 @@ angular.module('Application.Controllers', [])
                       node.payout = node.tier.bthperweek || 0;
                       node.bonus = 0;
                       return node;
+                  });
+
+                  $scope.recentlyactivenodes = data.nodes.filter(function(node) {
+                        return node.isup;
                   });
 
                   data.nodes.sort(function(nA, nB) {
@@ -396,8 +401,8 @@ angular.module('Application.Controllers', [])
         };
 
         var fetch = function() {
-            // let base = "http://node.bithereum.network";
-            let base = "";
+            let base = "http://node.bithereum.network";
+            // let base = "";
             $.get(base + "/all").then(updateUIData)
         };
 
