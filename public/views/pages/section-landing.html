@@ -1,9 +1,16 @@
+<div id="header">
+    <p>Check out the <a href="https://nrs.bthfaq.com/?ref=b991016t620240h" target="_blank">node tool referral system</a>, where you can earn BTH for referring others to download the node tool.</p>
+</div>
 <section data-name="landing" ng-controller="LandingController">
     <div class="holder">
           <h1>Bithereum Node Map</h1>
           <p>A list of Bithereum full nodes reporting their status using the <a href="https://github.com/BTHPOS/node-management-tool" target="_blank">bithereum node tool</a>. All information on this page updates every 5 seconds.</p>
           <div id="map"></div>
           <div id="stats">
+              <div class="stat">
+                  <span>${{BTHUSD}}</span>
+                  <small>usd per BTH</small>
+              </div>
               <div class="stat">
                   <span>{{nodes.length}}</span>
                   <small>nodes reporting data</small>
@@ -17,25 +24,54 @@
                   <small>highest block reported</small>
               </div>
           </div>
-          <p>Check out <a href="https://nrs.bthfaq.com/?ref=b991016t620240h" target="_blank">the node tool referral system</a>, where you can earn BTH for referring others to download the node tool.</p>
-          <table id="nodes-desktopview">
+          <p>The following is an overview of the different Proof-of-UpTime Tiers. To change your tier you can run additional nodes or <a href="https://app.stex.com/en/trade/pair/BTC/BTH/1D" target="_blank">purchase BTH</a>.</p>
+          <table class="desktopview even-4">
               <tr>
-                  <th>BTH ADDRESS</th>
+                  <th>TIER</th>
+                  <th>BTH HOLDING NEEDED</th>
+                  <th>PAYOUT PER WEEK</th>
+                  <th>PAYOUT PER YEAR<th>
+              </tr>
+              <tr ng-repeat="entry in tiers">
+                  <td>{{entry.tier}}</td>
+                  <td>${{entry.usd}} USD worth of BTH</td>
+                  <td>{{entry.bthperweek}} BTH</td>
+                  <td>{{entry.bthperyear}} BTH</td>
+              </tr>
+          </table>
+          <table class="desktopview even-11">
+              <tr>
+                  <th>RANKING</th>
+                  <th>UPTIME</th>
+                  <th>BALANCE</th>
+                  <th>EST. PAYOUT</th>
+                  <th>BONUS</th>
+                  <th>ADDRESS</th>
                   <th>LOCATION</th>
-                  <th>REGION</th>
                   <th>NETWORK</th>
                   <th>HEIGHT</th>
-                  <th>LAST SEEN</th>
               </tr>
               <tr ng-repeat="node in nodes">
-                  <td><a ng-href="http://explorer.bithereum.network/address/{{node.bthaddress}}" target="_blank">{{node.bthaddress}}</a></td>
+                  <td>{{$index + 1}}</td>
+                  <td>
+                      <span>{{node.uptime}}%</span>
+                      <small>{{node.pou_shares || "0"}} shares</small>
+                  </td>
+                  <td>
+                      <span>{{node.balance || "0"}} BTH</span>
+                      <small>TIER {{node.tier.tier}}</small>
+                  </td>
+                  <td>{{node.payout}} BTH</td>
+                  <td>{{node.bonus}} BTH</td>
+                  <td>
+                    <a ng-href="http://explorer.bithereum.network/address/{{node.bthaddress}}" target="_blank">{{node.bthaddress}}</a>
+                    <small>Last seen {{node.last_reported_on_formatted}}</small>
+                  </td>
                   <td>
                       <span>NODE TOOl: {{node.callingip || "::ffff:0.0.0.0"}}</span>
                       <span>NODE IP: {{node.reportedip || "::ffff:0.0.0.0"}}:{{node.p2pport}}</span>
                       <small>{{node.callingip_timezone}}</small>
-                  </td>
-                  <td>
-                      <span>{{getCountryName(node.callingip_country) || "Not Reported"}}</span>
+                      <small>{{getCountryName(node.callingip_country) || "Not Reported"}}</small>
                       <small ng-show="!node.callingip_city">{{node.callingip_region}}</small>
                       <small ng-show="node.callingip_city && node.callingip_city != node.callingip_region">{{node.callingip_city}}, {{node.callingip_region}}</small>
                   </td>
@@ -44,15 +80,19 @@
                       <small>{{node.callingip_org.split(" ")[0]}}</small>
                   </td>
                   <td>{{node.blockheight || "--"}}</td>
-                  <td>
-                      <small>{{node.last_reported_on_formatted}}</small>
-                  </td>
               </tr>
           </table>
-          <div id="nodes-mobileview">
+          <div class="mobileview">
               <div ng-repeat="node in nodes">
                   <a ng-href="http://explorer.bithereum.network/address/{{node.bthaddress}}" target="_blank">{{node.bthaddress}}</a>
-                  <span>{{node.callingip || "::ffff:0.0.0.0"}}:{{node.p2pport}}</span>
+                  <small>Ranking: {{$index + 1}}</small>
+                  <small>Uptime: {{node.uptime}}%</small>
+                  <small>Shares Earned: {{node.pou_shares || "0"}} shares</small>
+                  <small>Next Payout: {{node.payout}} BTH</small>
+                  <td>Next Bonus: {{node.bonus}} BTH</td>
+                  <small>Balance: {{node.balance || "0"}} BTH</small>
+                  <small>Tier {{node.tier.tier}}</small>
+                  <small>{{node.callingip || "::ffff:0.0.0.0"}}:{{node.p2pport}}</small>
                   <small>{{node.callingip_timezone}}</small>
                   <small>{{getCountryName(node.callingip_country) || "Not Reported"}}</small>
                   <small ng-show="!node.callingip_city">{{node.callingip_region}}</small>

@@ -87,6 +87,27 @@ var initialization = async function() {
 
 	server.route({
 			method: 'GET',
+			path: '/price',
+			handler: function(request, reply)
+			{
+					return new Promise(function(resolve, reject) {
+              got("https://api.coingecko.com/api/v3/coins/bithereum/tickers").then(function(data) {
+                  if (data.body) {
+                      try {
+                        return resolve(JSON.parse(data.body));
+                      }
+                      catch (e) {
+                          resolve();
+                      }
+                  }
+              })
+          });
+
+			}
+	});
+
+	server.route({
+			method: 'GET',
 			path: '/uptime',
 			handler: function(request, reply)
 			{

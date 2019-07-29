@@ -297,20 +297,76 @@ angular.module('Application.Controllers', [])
 
         window.nodesToPlotLimit = 0
         window.nodesPlotted = [];
+
+        $scope.BTHUSD = 0.00;
+
+        $.get("/price").then(function(data) {
+            if (data && data.tickers) {
+                $timeout(function() {
+                     var BTHUSD = 0;
+                     let total_coverted_volume = 0;
+                     data.tickers.forEach(function(ticker) {
+                          total_coverted_volume += ticker.converted_volume.usd;
+                     });
+                     data.tickers = data.tickers.map(function(ticker) {
+                        ticker.volume_percentage = (ticker.converted_volume.usd/total_coverted_volume)
+                        return ticker;
+                     })
+                     data.tickers.forEach(function(ticker) {
+                          BTHUSD += (ticker.volume_percentage * ticker.converted_last.usd)
+                          console.log(ticker.volume_percentage, ticker.converted_last.usd)
+                     });
+                     if (BTHUSD > 0) $scope.BTHUSD = BTHUSD.toFixed(4);
+                });
+            }
+        });
+
+
         var updateUIData = function(data) {
             $timeout(function() {
               if (data.nodes) {
+
+                  $scope.tiers = [
+                      {tier: 0, usd: 0, bthperweek:0.1, bthperyear:5.2},
+                      {tier: 1, usd: 0.5, bthperweek:1, bthperyear:52},
+                      {tier: 2, usd: 5, bthperweek:3, bthperyear:156},
+                      {tier: 3, usd: 25, bthperweek:10, bthperyear:520},
+                      {tier: 4, usd: 50, bthperweek:15, bthperyear:780},
+                      {tier: 5, usd: 250, bthperweek:25, bthperyear:1300},
+                  ];
+
+                  let getTier = function(holding) {
+                      holding = holding || 0;
+                      let holdingUSD = holding / $scope.BTHUSD;
+                      for (var index in $scope.tiers) {
+                          if (holdingUSD < $scope.tiers[index].usd) {
+                              return $scope.tiers[index-1] || {};
+                          }
+                      }
+                      return $scope.tiers[$scope.tiers.length-1];
+                  };
+
+                  var highestPOU = 0;
+                  data.nodes.forEach(function(node) {
+                      if (node.pou_shares > highestPOU) {
+                          highestPOU = node.pou_shares;
+                      }
+                  });
 
                   data.nodes = data.nodes.map(function(node) {
                       node.latitude = parseFloat(node.callingip_lat)
                       node.longitude = parseFloat(node.callingip_long)
                       node.radius = 10
+                      node.uptime = (highestPOU ? (node.pou_shares / highestPOU) * 100 : 0).toFixed(2)
                       node.fillKey = 'node'
+                      node.tier = getTier(node.balance);
+                      node.payout = node.tier.bthperweek || 0;
+                      node.bonus = 0;
                       return node;
                   });
 
                   data.nodes.sort(function(nA, nB) {
-                      return new Date(nB.last_reported_on) - new Date(nA.last_reported_on);
+                      return nB.pou_shares - nA.pou_shares;
                   });
 
                   $scope.nodes = data.nodes;
@@ -340,8 +396,8 @@ angular.module('Application.Controllers', [])
         };
 
         var fetch = function() {
-            // let base = "http://node.bithereum.network";
-            let base = "";
+            let base = "http://node.bithereum.network";
+            // let base = "";
             $.get(base + "/all").then(updateUIData)
         };
 

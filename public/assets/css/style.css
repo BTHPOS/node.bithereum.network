@@ -4,7 +4,7 @@
 
 html, body {
   background-color: #FAFAFA;
-  padding: 1rem 0 5rem 0;
+  padding: 3rem 0 5rem 0;
   overflow-x: hidden; }
 
 h1 {
@@ -27,6 +27,27 @@ p {
 a {
   color: #1D2631; }
 
+#header {
+  position: fixed;
+  width: 100%;
+  padding: 0.3rem;
+  box-sizing: border-box;
+  background-color: #FFC345;
+  color: #000000;
+  border-bottom: 0.05rem solid #000000;
+  z-index: 1000;
+  top: 0;
+  opacity: 0.9; }
+  #header p {
+    margin: 0 auto;
+    text-align: center;
+    width: 90%;
+    max-width: inherit;
+    font-size: 0.9rem; }
+    #header p a {
+      color: #000000;
+      font-weight: bold; }
+
 #map {
   width: 95%;
   max-width: 64rem;
@@ -48,7 +69,7 @@ a {
     max-width: 20rem;
     display: inline-block;
     vertical-align: top;
-    margin: 0 1.5rem; }
+    margin: 1rem 1.5rem; }
     #stats .stat span {
       display: block;
       font-size: 2.5rem;
@@ -60,30 +81,38 @@ p a {
   color: #FFC345; }
 
 @media (min-width: 50em) {
-  #nodes-mobileview {
+  .mobileview {
     display: none; } }
-#nodes-mobileview > div {
+.mobileview > div {
   padding: 1rem;
   border-top: 0.05rem solid #DDDDDD; }
-  #nodes-mobileview > div a, #nodes-mobileview > div span, #nodes-mobileview > div small {
+  .mobileview > div a, .mobileview > div span, .mobileview > div small {
     display: block;
     margin: 0 0 0.5rem 0; }
 
 table {
-  width: 90%;
+  width: 99%;
   margin: 0 auto 3rem auto;
   text-align: center;
   border-spacing: 0;
-  max-width: 70rem; }
+  max-width: 85rem;
+  border-collapse: collapse; }
   @media (max-width: 50em) {
     table {
       display: none; } }
   table th {
     padding: 0.5rem;
     font-size: 0.9rem; }
+  table.even-4 {
+    display: block; }
+    table.even-4 td {
+      width: 25%; }
   table td {
     font-size: 0.85rem;
     padding: 0.5rem; }
+    table td a {
+      display: block;
+      margin: 0 0 0.5rem 0; }
     table td span {
       display: block;
       margin: 0 0 0.3rem 0; }
@@ -91,6 +120,11 @@ table {
       display: block;
       margin: 0 0 0.3rem 0;
       font-weight: 100; }
+  table tr td:first-child {
+    background-color: #FFC345;
+    font-size: 1.3rem; }
+  table tr:not(:first-child) {
+    border-bottom: 0.05rem solid #666666; }
   table tr:not(:first-child):hover {
     background-color: #FFC345;
     cursor: pointer; }
