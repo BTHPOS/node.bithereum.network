@@ -367,7 +367,7 @@ angular.module('Application.Controllers', [])
                   });
 
                   $scope.recentlyactivenodes = data.nodes.filter(function(node) {
-                        return node.isup;
+                        return node.isup || node.last_reported_on_formatted.indexOf("hour") > -1 || node.last_reported_on_formatted.indexOf("minute") > -1
                   });
 
                   data.nodes.sort(function(nA, nB) {
