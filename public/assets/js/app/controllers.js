@@ -278,22 +278,17 @@ angular.module('Application.Controllers', [])
             return block;
         };
 
-        var map = new Datamap({
-            element: document.getElementById("map"),
-            geographyConfig: {
-                popupOnHover: true,
-                highlightOnHover: true,
-                highlightBorderColor: '#FFC345',
-                highlightFillColor: function(geo) {
-                    return '#FFC345';
-                }
-            },
-            fills: {
-                defaultFill: '#DDDDDD',
-                'node': '#1D2631',
-                'node-fill': '#000000',
-            }
-        });
+
+        var map = L.map('map', {
+          gestureHandling: true,
+          preferCanvas: true
+        }).setView([32.158175096845596, -1.6767883300781252], 2);
+
+        L.tileLayer.grayscale('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map)
+
+        window.map = map;
 
         window.nodesToPlotLimit = 0
         window.nodesPlotted = [];
@@ -384,16 +379,10 @@ angular.module('Application.Controllers', [])
 
                         window.nodesPlotted = data.nodes;
                         console.log("Plotting", data.nodes.length, "nodes");
-
-                        map.bubbles(data.nodes, {
-                            highlightBorderWidth: 2,
-                            highlightFillColor: function(geo) {
-                                return '#FFC345';
-                            },
-                            highlightBorderColor: '#FFC345',
-                            popupTemplate: function(geo, data) {
-                                return '<div class="hoverinfo"> ' + data.callingip_region
-                            }
+                        data.nodes.forEach(function(node) {
+                              L.circleMarker([node.latitude, node.longitude], {
+                                color: "#FFC345"
+                              }).addTo(map)
                         });
                   }
               }
@@ -408,6 +397,6 @@ angular.module('Application.Controllers', [])
 
         setInterval(function() {
             fetch();
-        },5000);
+        },10000);
         fetch();
 }])

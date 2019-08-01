@@ -1,10 +1,7 @@
-<div id="header">
-    <p>Check out the <a href="https://nrs.bthfaq.com/?ref=b991016t620240h" target="_blank">node tool referral system</a>, where you can earn BTH for referring others to download the node tool.</p>
-</div>
 <section data-name="landing" ng-controller="LandingController">
     <div class="holder">
           <h1>Bithereum Node Map</h1>
-          <p>A list of Bithereum full nodes reporting their status using the <a href="https://github.com/BTHPOS/node-management-tool" target="_blank">bithereum node tool</a>. All information on this page updates every 5 seconds.</p>
+          <p>A list of Bithereum full nodes reporting their status using the <a href="https://github.com/BTHPOS/node-management-tool" target="_blank">bithereum node tool</a>. All information on this page updates every 10 seconds.</p>
           <div id="map"></div>
           <div id="stats">
               <div class="stat">
@@ -29,7 +26,7 @@
               </div>
           </div>
           <p>The following is an overview of the different Proof-of-UpTime Tiers. To change your tier you can run additional nodes or <a href="https://app.stex.com/en/trade/pair/BTC/BTH/1D" target="_blank">purchase BTH</a>.</p>
-          <table class="desktopview even-4">
+          <table class="desktopview even-4" id="table-tiers">
               <tr>
                   <th>TIER</th>
                   <th>BTH HOLDING NEEDED</th>
@@ -43,6 +40,7 @@
                   <td>{{entry.bthperyear}} BTH</td>
               </tr>
           </table>
+          <p>Check out the <a href="https://nrs.bthfaq.com/?ref=b991016t620240h" target="_blank">node tool referral system</a>, where you can earn BTH for referring others to download the node tool.</p>
           <table class="desktopview even-11">
               <tr>
                   <th>RANKING</th>
