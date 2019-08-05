@@ -182,8 +182,6 @@ var initialization = async function() {
 
               var nodes = created_nodes.concat(existing_nodes);
 
-              console.log(nodes.length);
-              
               for (var index in nodes) {
                     var node = nodes[index];
                     var data = {};
@@ -206,7 +204,7 @@ var initialization = async function() {
                     data.nodetool_version = (params.nodetool_version || "")
                     data.nodetool_os = (params.nodetool_operatingsystem || "")
                     data.nodetool_identifier = (params.nodetool_identifier || "")
-                    query("SELECT * FROM bth_nodes WHERE ipid = '"+data.ipid+"'", function(err, rows) {
+                    query("SELECT * FROM bth_nodes WHERE ipid = '"+data.ipid+"'", {}, function(err, rows) {
                         if (!err && rows.length > 0) {
                             query("UPDATE bth_nodes SET ? WHERE ipid = '"+data.ipid+"'", data, function() {
                                 console.log("1", arguments);
