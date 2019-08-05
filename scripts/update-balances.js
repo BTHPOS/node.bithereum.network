@@ -30,7 +30,7 @@ let tiers = [
 let updateBalances = function() {
   got("https://api.coingecko.com/api/v3/coins/bithereum/tickers").then(function(data) {
 
-       var BTHUSD = 0.01;
+       var BTHUSD = 0;
 
        let getTier = function(holding) {
            holding = holding || 0;
