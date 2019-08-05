@@ -207,35 +207,26 @@ var initialization = async function() {
 
 
                     var addUpdateNodes = function(_data) {
-
-                        console.log( "SELECT * FROM bth_nodes WHERE ipid = '"+_data.ipid+"'" );
-
                         query("SELECT * FROM bth_nodes WHERE ipid = '"+_data.ipid+"'", {}, function(err, rows) {
-                            console.log("0", arguments);
                             if (!err && rows.length > 0) {
                                 query("UPDATE bth_nodes SET ? WHERE ipid = '"+_data.ipid+"'", _data, function() {
-                                    console.log("1", arguments);
                                 });
                                 if (_data.blockheight != 0) {
                                     query("UPDATE bth_nodes SET pou_shares = pou_shares + 1 WHERE ipid = '"+_data.ipid+"'", _data, function() {
-                                        console.log("2", arguments);
                                     });
                                 }
                             }
                             else {
                                 query("INSERT INTO bth_nodes SET ?", _data, function() {
-                                    console.log("3", arguments);
                                 });
                             }
                         });
-
                     };
-                    
+
                     addUpdateNodes(data);
               }
           }
           catch(e) {
-              console.log(e);
           }
 
           return {"received": true};
