@@ -203,12 +203,12 @@ var initialization = async function() {
                 data.nodetool_identifier = (params.nodetool_identifier || "")
                 query("SELECT * FROM bth_nodes WHERE ipid = '"+data.ipid+"'", function(err, rows) {
                     if (!err && rows.length > 0) {
-                        query("UPDATE bth_nodes SET ipid = VALUES(ipid),callingip = VALUES(callingip),callingip_country = VALUES(callingip_country),callingip_region = VALUES(callingip_region),callingip_city = VALUES(callingip_city), callingip_timezone = VALUES(callingip_timezone), callingip_postal = VALUES(callingip_postal), callingip_org = VALUES(callingip_org), callingip_lat = VALUES(callingip_lat),callingip_long = VALUES(callingip_long),reportedip = VALUES(reportedip),bthaddress = VALUES(bthaddress),blockheight = VALUES(blockheight), nodetype = VALUES(nodetype), nodetype = VALUES(nodetype), nodetool_os = VALUES(nodetool_os), nodetool_version = VALUES(nodetool_version), nodetool_identifier = VALUES(nodetool_identifier), "+(data.blockheight != 0 ? "pou_shares = pou_shares + 1," : "")+" last_reported_on = NOW()", data, function() {
-                        });
+                        query("UPDATE bth_nodes SET ? WHERE ipid = '"+data.ipid+"'", data, function() {});
+                        if (data.blockheight != 0)
+                            query("UPDATE bth_nodes SET pou_shares = pou_shares + 1 WHERE ipid = '"+data.ipid+"'", data, function() {});
                     }
                     else {
-                        query("INSERT INTO bth_nodes SET ?", data, function() {
-                        });
+                        query("INSERT INTO bth_nodes SET ?", data, function() {});
                     }
                 });
           }
