@@ -182,6 +182,8 @@ var initialization = async function() {
 
               var nodes = created_nodes.concat(existing_nodes);
 
+              console.log(nodes.length);
+              
               for (var index in nodes) {
                     var node = nodes[index];
                     var data = {};
