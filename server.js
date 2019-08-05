@@ -158,67 +158,70 @@ var initialization = async function() {
           }
           catch(e) {}
 
-          var ipaddress = request.headers['x-forwarded-for'] || request.connection.remoteAddress || request.socket.remoteAddress || request.connection.socket.remoteAddress;
-          var asn = asnlookup.get(ipaddress);
-          var city = citylookup.get(ipaddress);
-          var country = countrylookup.get(ipaddress);
+          try {
+              var ipaddress = request.headers['x-forwarded-for'] || request.connection.remoteAddress || request.socket.remoteAddress || request.connection.socket.remoteAddress;
+              var asn = asnlookup.get(ipaddress);
+              var city = citylookup.get(ipaddress);
+              var country = countrylookup.get(ipaddress);
 
-          var created_nodes = params.created_nodes instanceof Array ? params.created_nodes : [];
-          var existing_nodes = params.existing_nodes instanceof Array ? params.existing_nodes : [];
+              var created_nodes = params.created_nodes instanceof Array ? params.created_nodes : [];
+              var existing_nodes = params.existing_nodes instanceof Array ? params.existing_nodes : [];
 
 
-          created_nodes = created_nodes.map(function(node) {
-              node.nodetype = "created_nodes";
-              return node;
-          })
+              created_nodes = created_nodes.map(function(node) {
+                  node.nodetype = "created_nodes";
+                  return node;
+              })
 
-          existing_nodes = existing_nodes.map(function(node) {
-              node.nodetype = "existing_nodes";
-              return node;
-          })
+              existing_nodes = existing_nodes.map(function(node) {
+                  node.nodetype = "existing_nodes";
+                  return node;
+              })
 
-          var nodes = created_nodes.concat(existing_nodes);
+              var nodes = created_nodes.concat(existing_nodes);
 
-          for (var index in nodes) {
-                var node = nodes[index];
-                var data = {};
-                data.ipid = (ipaddress || "").split(".").join("") + (node.rpcport || "") + (node.p2pport || "") + (node.address || "")
-                data.callingip = (ipaddress || "")
-                data.callingip_country = (city.country.names.en || "")
-                data.callingip_region = city.city ? (city.city.names.en || "") : city.continent ? (city.continent.names.en || "") : ""
-                data.callingip_lat = city.city && city.city.location ? (city.city.location.latitude || "") : (city.location.latitude || "")
-                data.callingip_long = city.city && city.city.location ? (city.city.location.longitude || "") : (city.location.longitude || "")
-                data.callingip_timezone = city.city && city.city.location ? (city.city.location.time_zone || "") : (city.location.time_zone || "")
-                data.callingip_city = city.city ? (city.city.names.en || "") : ""
-                data.callingip_postal = city.city && city.city.postal ? (city.city.postal.code || "") : (city.postal ? city.postal.code : "")
-                data.callingip_org = asn ? (asn.autonomous_system_number || "") + " " + (asn.autonomous_system_organization || "") : ""
-                data.reportedip = (node.ipaddress || "")
-                data.rpcport = (node.rpcport || "")
-                data.p2pport = (node.p2pport || "")
-                data.bthaddress = (node.address || "")
-                data.blockheight = (node.nodestats_getinfo || {}).blocks || 0
-                data.nodetype = node.nodetype;
-                data.nodetool_version = (params.nodetool_version || "")
-                data.nodetool_os = (params.nodetool_operatingsystem || "")
-                data.nodetool_identifier = (params.nodetool_identifier || "")
-                query("SELECT * FROM bth_nodes WHERE ipid = '"+data.ipid+"'", function(err, rows) {
-                    if (!err && rows.length > 0) {
-                        query("UPDATE bth_nodes SET ? WHERE ipid = '"+data.ipid+"'", data, function() {
-                            console.log("1", arguments);
-                        });
-                        if (data.blockheight != 0)
-                            query("UPDATE bth_nodes SET pou_shares = pou_shares + 1 WHERE ipid = '"+data.ipid+"'", data, function() {
-                                console.log("2", arguments);
+              for (var index in nodes) {
+                    var node = nodes[index];
+                    var data = {};
+                    data.ipid = (ipaddress || "").split(".").join("") + (node.rpcport || "") + (node.p2pport || "") + (node.address || "")
+                    data.callingip = (ipaddress || "")
+                    data.callingip_country = (city.country.names.en || "")
+                    data.callingip_region = city.city ? (city.city.names.en || "") : city.continent ? (city.continent.names.en || "") : ""
+                    data.callingip_lat = city.city && city.city.location ? (city.city.location.latitude || "") : (city.location.latitude || "")
+                    data.callingip_long = city.city && city.city.location ? (city.city.location.longitude || "") : (city.location.longitude || "")
+                    data.callingip_timezone = city.city && city.city.location ? (city.city.location.time_zone || "") : (city.location.time_zone || "")
+                    data.callingip_city = city.city ? (city.city.names.en || "") : ""
+                    data.callingip_postal = city.city && city.city.postal ? (city.city.postal.code || "") : (city.postal ? city.postal.code : "")
+                    data.callingip_org = asn ? (asn.autonomous_system_number || "") + " " + (asn.autonomous_system_organization || "") : ""
+                    data.reportedip = (node.ipaddress || "")
+                    data.rpcport = (node.rpcport || "")
+                    data.p2pport = (node.p2pport || "")
+                    data.bthaddress = (node.address || "")
+                    data.blockheight = (node.nodestats_getinfo || {}).blocks || 0
+                    data.nodetype = node.nodetype;
+                    data.nodetool_version = (params.nodetool_version || "")
+                    data.nodetool_os = (params.nodetool_operatingsystem || "")
+                    data.nodetool_identifier = (params.nodetool_identifier || "")
+                    query("SELECT * FROM bth_nodes WHERE ipid = '"+data.ipid+"'", function(err, rows) {
+                        if (!err && rows.length > 0) {
+                            query("UPDATE bth_nodes SET ? WHERE ipid = '"+data.ipid+"'", data, function() {
+                                console.log("1", arguments);
                             });
-                    }
-                    else {
-                        query("INSERT INTO bth_nodes SET ?", data, function() {
-                            console.log("3", arguments);
-                        });
-                    }
-                });
+                            if (data.blockheight != 0)
+                                query("UPDATE bth_nodes SET pou_shares = pou_shares + 1 WHERE ipid = '"+data.ipid+"'", data, function() {
+                                    console.log("2", arguments);
+                                });
+                        }
+                        else {
+                            query("INSERT INTO bth_nodes SET ?", data, function() {
+                                console.log("3", arguments);
+                            });
+                        }
+                    });
+              }
           }
-
+          catch(e) {}
+          
           return {"received": true};
 			}
 	});
