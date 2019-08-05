@@ -203,12 +203,18 @@ var initialization = async function() {
                 data.nodetool_identifier = (params.nodetool_identifier || "")
                 query("SELECT * FROM bth_nodes WHERE ipid = '"+data.ipid+"'", function(err, rows) {
                     if (!err && rows.length > 0) {
-                        query("UPDATE bth_nodes SET ? WHERE ipid = '"+data.ipid+"'", data, function() {});
+                        query("UPDATE bth_nodes SET ? WHERE ipid = '"+data.ipid+"'", data, function() function() {
+                            console.log("1", arguments);
+                        });
                         if (data.blockheight != 0)
-                            query("UPDATE bth_nodes SET pou_shares = pou_shares + 1 WHERE ipid = '"+data.ipid+"'", data, function() {});
+                            query("UPDATE bth_nodes SET pou_shares = pou_shares + 1 WHERE ipid = '"+data.ipid+"'", data, function() {
+                                console.log("2", arguments);
+                            });
                     }
                     else {
-                        query("INSERT INTO bth_nodes SET ?", data, function() {});
+                        query("INSERT INTO bth_nodes SET ?", data, function() {
+                            console.log("3", arguments);
+                        });
                     }
                 });
           }
