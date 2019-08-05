@@ -89,7 +89,7 @@ let updateBalances = function() {
 
                                   console.log(address,"-->",balance);
                                   var tier = getTier(balance)
-                                  query("UPDATE bth_nodes SET balance = '"+balance+"', pou_tier = '"+tier.tier+"', pou_payout = '"+tier.bthperweek+"', balance_updated_on=NOW() WHERE `bthaddress` = '"+address+"'")
+                                  query("UPDATE bth_nodes SET balance = '"+balance+"', pou_tier = '"+tier.tier+"', pou_payout = '"+tier.bthperweek+"', pou_price = '"+BTHUSD+"', balance_updated_on=NOW() WHERE `bthaddress` = '"+address+"'")
                               }
                         });
                     }
