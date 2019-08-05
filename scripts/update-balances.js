@@ -52,6 +52,8 @@ let updateBalances = function() {
           }
       }
 
+      console.log(data);
+
        if (data && data.tickers) {
            let total_coverted_volume = 0;
            data.tickers.forEach(function(ticker) {
