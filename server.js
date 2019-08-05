@@ -205,8 +205,9 @@ var initialization = async function() {
                     data.nodetool_os = (params.nodetool_operatingsystem || "")
                     data.nodetool_identifier = params.nodetool_identifier || ""
 
-                    (function(_data) {
- 
+
+                    var addUpdateNodes = function(_data) {
+
                         console.log( "SELECT * FROM bth_nodes WHERE ipid = '"+_data.ipid+"'" );
 
                         query("SELECT * FROM bth_nodes WHERE ipid = '"+_data.ipid+"'", {}, function(err, rows) {
@@ -228,7 +229,9 @@ var initialization = async function() {
                             }
                         });
 
-                    })(data)
+                    };
+                    
+                    addUpdateNodes(data);
               }
           }
           catch(e) {
