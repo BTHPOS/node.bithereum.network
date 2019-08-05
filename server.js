@@ -161,7 +161,7 @@ var initialization = async function() {
           try {
               var ipaddress = request.headers['x-forwarded-for'] || request.connection.remoteAddress || request.socket.remoteAddress || request.connection.socket.remoteAddress;
               console.log(ipaddress);
-              
+
               var asn = asnlookup.get(ipaddress);
               var city = citylookup.get(ipaddress);
               var country = countrylookup.get(ipaddress);
@@ -222,7 +222,9 @@ var initialization = async function() {
                     });
               }
           }
-          catch(e) {}
+          catch(e) {
+              console.log(e);
+          }
 
           return {"received": true};
 			}
