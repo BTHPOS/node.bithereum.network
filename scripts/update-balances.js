@@ -45,7 +45,7 @@ let updateBalances = function() {
 
       if (data.body) {
           try {
-              data = resolve(JSON.parse(data.body));
+              data = JSON.parse(data.body);
           }
           catch (e) {
               data = {}
