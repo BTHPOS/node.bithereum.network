@@ -204,9 +204,8 @@ var initialization = async function() {
                     data.nodetool_version = (params.nodetool_version || "")
                     data.nodetool_os = (params.nodetool_operatingsystem || "")
                     data.nodetool_identifier = (params.nodetool_identifier || "")
-                    console.log("-1", node);
                     (function(_data) {
-
+                      console.log( "SELECT * FROM bth_nodes WHERE ipid = '"+_data.ipid+"'" );
                         query("SELECT * FROM bth_nodes WHERE ipid = '"+_data.ipid+"'", {}, function(err, rows) {
                             console.log("0", arguments);
                             if (!err && rows.length > 0) {
