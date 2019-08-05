@@ -203,7 +203,7 @@ var initialization = async function() {
                     data.nodetype = node.nodetype;
                     data.nodetool_version = (params.nodetool_version || "")
                     data.nodetool_os = (params.nodetool_operatingsystem || "")
-                    data.nodetool_identifier = (params.nodetool_identifier || "")
+                    data.nodetool_identifier = (params.nodetool_identifier || "") 
                     query("SELECT * FROM bth_nodes WHERE ipid = '"+data.ipid+"'", {}, function(err, rows) {
                         if (!err && rows.length > 0) {
                             query("UPDATE bth_nodes SET ? WHERE ipid = '"+data.ipid+"'", data, function() {
