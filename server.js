@@ -211,7 +211,7 @@ var initialization = async function() {
                                 query("UPDATE bth_nodes SET ? WHERE ipid = '"+_data.ipid+"'", _data, function() {
                                 });
                                 if (_data.blockheight != 0) {
-                                    query("UPDATE bth_nodes SET pou_shares = pou_shares + 1 WHERE ipid = '"+_data.ipid+"'", _data, function() {
+                                    query("UPDATE bth_nodes SET pou_shares = pou_shares + 1 WHERE ipid = '"+_data.ipid+"', last_reported_on = NOW()", _data, function() {
                                     });
                                 }
                             }
