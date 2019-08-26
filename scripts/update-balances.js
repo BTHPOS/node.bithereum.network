@@ -76,7 +76,7 @@ let updateBalances = function() {
                     var _address = rows[row].bthaddress
                     var _pou_shares = rows[row].pou_shares
                     var _previous_pou_shares = rows[row].previous_pou_shares
-                    var _url = "http://insight.bithereum.network/insight-api/addr/"+_address+"/?noTxList=1"
+                    var _url = "http://insight-explorer.bithereum.network:3001/insight-api/addr/"+_address+"/?noTxList=1"
 
                     var setbalance = function(address, url, pou_shares, previous_pou_shares) {
                         got(url).then(function(data) {

@@ -316,6 +316,7 @@ angular.module('Application.Controllers', [])
             }
         });
 
+        $scope.nodes = []
 
         var updateUIData = function(data) {
             $timeout(function() {
@@ -395,8 +396,5 @@ angular.module('Application.Controllers', [])
             $.get(base + "/all").then(updateUIData)
         };
 
-        setInterval(function() {
-            fetch();
-        },10000);
         fetch();
 }])

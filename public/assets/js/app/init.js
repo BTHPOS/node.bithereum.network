@@ -2,7 +2,8 @@
 
 angular.module('Application', [
   'ngRoute',
-  'Application.Controllers'
+  'Application.Controllers',
+  'QuickList'
 ]).
 config(['$locationProvider', '$interpolateProvider', '$routeProvider', function($locationProvider, $interpolateProvider, $routeProvider) {
 
