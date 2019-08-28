@@ -211,8 +211,8 @@ var initialization = async function() {
                                 let entry = rows[0]
                                 _data.pou_uptime = entry.pou_shares/highest_shares
                                 _data.pou_bonus = entry.pou_uptime > 0.5 ? 10 : (entry.pou_uptime > 0.25 ? 5 : 0)
-                                _data.pou_weighed_payout = _data.pou_uptime * _data.pou_payout
-                                _data.pou_sumpayout = _data.pou_weighed_payout + _data.pou_bonus
+                                _data.pou_weighed_payout = entry.pou_uptime * entry.pou_payout
+                                _data.pou_sumpayout = entry.pou_weighed_payout + entry.pou_bonus
 
                                 query("UPDATE bth_nodes SET ? WHERE ipid = '"+_data.ipid+"'", _data, function() {
                                 });
