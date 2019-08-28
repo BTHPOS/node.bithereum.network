@@ -209,8 +209,8 @@ var initialization = async function() {
                         query("SELECT * FROM bth_nodes WHERE ipid = '"+_data.ipid+"'", {}, function(err, rows) {
                             if (!err && rows.length > 0) {
                                 let entry = rows[0]
-                                _data.pou_uptime = _data.pou_shares/highest_shares
-                                _data.pou_bonus = _data.pou_uptime > 0.5 ? 10 : (_data.pou_uptime > 0.25 ? 5 : 0)
+                                _data.pou_uptime = entry.pou_shares/highest_shares
+                                _data.pou_bonus = entry.pou_uptime > 0.5 ? 10 : (entry.pou_uptime > 0.25 ? 5 : 0)
 
                                 query("UPDATE bth_nodes SET ? WHERE ipid = '"+_data.ipid+"'", _data, function() {
                                 });
