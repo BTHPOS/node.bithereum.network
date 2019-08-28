@@ -295,6 +295,10 @@ angular.module('Application.Controllers', [])
 
         $scope.BTHUSD = 0.00;
 
+        $scope.round = function(value) {
+            return value.toFixed(2)
+        };
+
         $.get("/price").then(function(data) {
             if (data && data.tickers) {
                 $timeout(function() {

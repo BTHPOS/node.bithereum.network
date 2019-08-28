@@ -65,7 +65,7 @@
                       <span>{{::node.balance || "0"}} BTH</span>
                       <small>TIER {{::node.tier.tier}}</small>
                   </td>
-                  <td>{{::node.payout}} BTH</td>
+                  <td>{{round(node.pou_weighed_payout)}} BTH</td>
                   <td>{{::node.pou_bonus}} BTH</td>
                   <td>
                     <a ng-href="http://explorer.bithereum.network/address/{{node.bthaddress}}" target="_blank">{{node.bthaddress}}</a>
