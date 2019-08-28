@@ -25,6 +25,7 @@
                   <small>highest block reported</small>
               </div>
           </div>
+          <p>Check out the <a href="https://nrs.bthfaq.com/?ref=b991016t620240h" target="_blank">node tool referral system</a>, where you can earn BTH for referring others to download the node tool.</p>
           <p>The following is an overview of the different Proof-of-UpTime Tiers. To change your tier you can run additional nodes or <a href="https://app.stex.com/en/trade/pair/BTC/BTH/1D" target="_blank">purchase BTH</a>.</p>
           <table class="desktopview even-4" id="table-tiers">
               <tr>
@@ -40,7 +41,8 @@
                   <td>{{entry.bthperyear}} BTH</td>
               </tr>
           </table>
-          <p>Check out the <a href="https://nrs.bthfaq.com/?ref=b991016t620240h" target="_blank">node tool referral system</a>, where you can earn BTH for referring others to download the node tool.</p>
+          <p>Anyone with an uptime % greater than 50%, will receive 10 additional BTH per node. Anyone with uptime % greater than 25% and less than 50%, will receive an additional 5 BTH per node.</p>
+          <p>Bonus amounts are subject to change at any point. Furthermore, the ‘Est. Payouts’ column is now weighted based on uptime %. The rewards for the tier are multiplied by the uptime %; the higher the uptime, the higher the reward.</p>
           <table class="desktopview even-11">
               <tr>
                   <th>RANKING</th>
@@ -56,7 +58,7 @@
               <tr quick-ng-repeat="node in nodes">
                   <td>{{$index + 1}}</td>
                   <td>
-                      <span>{{::node.uptime}}%</span>
+                      <span>{{::node.pou_uptime}}%</span>
                       <small>{{::node.pou_shares || "0"}} shares</small>
                   </td>
                   <td>
@@ -64,7 +66,7 @@
                       <small>TIER {{::node.tier.tier}}</small>
                   </td>
                   <td>{{::node.payout}} BTH</td>
-                  <td>{{::node.bonus}} BTH</td>
+                  <td>{{::node.pou_bonus}} BTH</td>
                   <td>
                     <a ng-href="http://explorer.bithereum.network/address/{{node.bthaddress}}" target="_blank">{{node.bthaddress}}</a>
                     <small>Last seen {{node.last_reported_on_formatted}}</small>
@@ -84,27 +86,6 @@
                   <td>{{node.blockheight || "--"}}</td>
               </tr>
           </table>
-          <div class="mobileview">
-              <div ng-repeat="node in nodes">
-                  <a ng-href="http://explorer.bithereum.network/address/{{node.bthaddress}}" target="_blank">{{node.bthaddress}}</a>
-                  <small>Ranking: {{$index + 1}}</small>
-                  <small>Uptime: {{node.uptime}}%</small>
-                  <small>Shares Earned: {{node.pou_shares || "0"}} shares</small>
-                  <small>Next Payout: {{node.payout}} BTH</small>
-                  <td>Next Bonus: {{node.bonus}} BTH</td>
-                  <small>Balance: {{node.balance || "0"}} BTH</small>
-                  <small>Tier {{node.tier.tier}}</small>
-                  <small>{{node.callingip || "::ffff:0.0.0.0"}}:{{node.p2pport}}</small>
-                  <small>{{node.callingip_timezone}}</small>
-                  <small>{{getCountryName(node.callingip_country) || "Not Reported"}}</small>
-                  <small ng-show="!node.callingip_city">{{node.callingip_region}}</small>
-                  <small ng-show="node.callingip_city && node.callingip_city != node.callingip_region">{{node.callingip_city}}, {{node.callingip_region}}</small>
-                  <small>{{node.callingip_org.replace(node.callingip_org.split(" ")[0], '') || "Not Reported"}}</small>
-                  <small>ASN: {{node.callingip_org.split(" ")[0]}}</small>
-                  <small>Block Height: {{node.blockheight || "--"}}</small>
-                  <small>Last reported {{node.last_reported_on_formatted}}</small>
-              </div>
-          </div>
           <p>Visit the <a href="https://bithereum.network" target="_blank">official Bithereum site</a> for more information</p>
     </div>
 </section>

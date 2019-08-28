@@ -136,7 +136,7 @@ var initialization = async function() {
               query("SELECT * FROM bth_nodes WHERE 1", [], function(err, rows) {
                     if (!err) {
                       rows = rows.map(function(row) {
-                          row.last_reported_on_formatted = moment(row.last_reported_on).fromNow();
+                          row.last_reported_on_formatted = moment(row.last_reported_on).add(4, 'hours').fromNow();
                           row.isup = row.last_reported_on_formatted == "a few seconds ago";
                           return row;
                       });
@@ -205,14 +205,19 @@ var initialization = async function() {
                     data.nodetool_identifier = params.nodetool_identifier || ""
 
 
-                    var addUpdateNodes = function(_data) {
+                    var addUpdateNodes = function(_data, highest_shares) {
                         query("SELECT * FROM bth_nodes WHERE ipid = '"+_data.ipid+"'", {}, function(err, rows) {
                             if (!err && rows.length > 0) {
+                                let entry = rows[0]
+                                _data.pou_uptime = _data.pou_shares/highest_shares
+                                _data.pou_bonus = _data.pou_uptime > 0.5 ? 10 : (_data.pou_uptime > 0.25 ? 5 : 0)
+
                                 query("UPDATE bth_nodes SET ? WHERE ipid = '"+_data.ipid+"'", _data, function() {
                                 });
+
                                 if (_data.blockheight != 0) {
-                                  query("UPDATE bth_nodes SET pou_shares = pou_shares + 1, last_reported_on = NOW() WHERE ipid = '"+_data.ipid+"'", _data, function() {
-                                  });
+                                    query("UPDATE bth_nodes SET pou_shares = pou_shares + 1, pou_uptime = '"+_data.pou_uptime+"', pou_bonus = '"+_data.pou_shares+"', last_reported_on = NOW() WHERE ipid = '"+_data.ipid+"'", _data, function() {
+                                    });
                                 }
                             }
                             else {
@@ -222,7 +227,12 @@ var initialization = async function() {
                         });
                     };
 
-                    addUpdateNodes(data);
+                    query("SELECT MAX(pou_shares) as highest_shares FROM bth_nodes WHERE 1", {}, function(err, rows) {
+                        if (!err && rows.length > 0) {
+                            addUpdateNodes(data, rows[0].highest_shares);
+                        }
+                    })
+
               }
           }
           catch(e) {
