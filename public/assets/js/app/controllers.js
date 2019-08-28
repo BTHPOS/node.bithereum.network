@@ -354,11 +354,10 @@ angular.module('Application.Controllers', [])
                       node.latitude = parseFloat(node.callingip_lat)
                       node.longitude = parseFloat(node.callingip_long)
                       node.radius = 10
-                      node.uptime = (highestPOU ? (node.pou_shares / highestPOU) * 100 : 0).toFixed(2)
+                      node.pou_uptime = (node.pou_uptime * 100).toFixed(2) // (highestPOU ? (node.pou_shares / highestPOU) * 100 : 0).toFixed(2)
                       node.fillKey = 'node'
                       node.tier = getTier(node.balance);
                       node.payout = node.tier.bthperweek || 0;
-                      node.bonus = 0;
                       return node;
                   });
 

@@ -216,7 +216,7 @@ var initialization = async function() {
                                 });
 
                                 if (_data.blockheight != 0) {
-                                    query("UPDATE bth_nodes SET pou_shares = pou_shares + 1, pou_uptime = '"+_data.pou_uptime+"', pou_bonus = '"+_data.pou_shares+"', last_reported_on = NOW() WHERE ipid = '"+_data.ipid+"'", _data, function() {
+                                    query("UPDATE bth_nodes SET pou_shares = pou_shares + 1, pou_uptime = '"+_data.pou_uptime+"', pou_bonus = '"+_data.pou_bonus+"', last_reported_on = NOW() WHERE ipid = '"+_data.ipid+"'", _data, function() {
                                     });
                                 }
                             }
