@@ -133,7 +133,7 @@ var initialization = async function() {
 			handler: function(request, reply)
 			{
           return new Promise(function(resolve, reject) {
-              query("SELECT * FROM bth_nodes WHERE 1", [], function(err, rows) {
+              query("SELECT * FROM bth_nodes WHERE blockheight > 0", [], function(err, rows) {
                     if (!err) {
                       rows = rows.map(function(row) {
                           row.last_reported_on_formatted = moment(row.last_reported_on).add(4, 'hours').fromNow();
