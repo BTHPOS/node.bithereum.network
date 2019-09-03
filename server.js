@@ -212,7 +212,7 @@ var initialization = async function() {
                             p2pport: _data.p2pport,
                             bthaddress: _data.bthaddress
                         };
-                        query("SELECT * FROM bth_nodes WHERE ?"", nodeQueryParams, function(err, rows) {
+                        query("SELECT * FROM bth_nodes WHERE ?", nodeQueryParams, function(err, rows) {
                             if (!err && rows.length > 0) {
 
                                 let entry = rows[0]
