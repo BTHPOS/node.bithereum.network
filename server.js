@@ -206,13 +206,13 @@ var initialization = async function() {
 
 
                     var addUpdateNodes = function(_data, highest_shares) {
-                        var nodeQueryParams = {
-                            reportedip: _data.reportedip,
-                            rpcport: _data.rpcport,
-                            p2pport: _data.p2pport,
-                            bthaddress: _data.bthaddress
-                        };
-                        query("SELECT * FROM bth_nodes WHERE ?", nodeQueryParams, function(err, rows) {
+                        var nodeQueryParams = [
+                            "reportedip=" + _data.reportedip,
+                            "rpcport=" + _data.rpcport,
+                            "p2pport=" + _data.p2pport,
+                            "bthaddress=" + _data.bthaddress
+                        ];
+                        query("SELECT * FROM bth_nodes WHERE " + nodeQueryParams.join(" AND "), {}, function(err, rows) {
                             if (!err && rows.length > 0) {
 
                                 let entry = rows[0]
