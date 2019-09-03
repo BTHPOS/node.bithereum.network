@@ -206,33 +206,34 @@ var initialization = async function() {
 
 
                     var addUpdateNodes = function(_data, highest_shares) {
-                        query("SELECT * FROM bth_nodes WHERE ipid = '"+_data.ipid+"'", {}, function(err, rows) {
+                        var nodeQueryParams = {
+                            reportedip: _data.reportedip,
+                            rpcport: _data.rpcport,
+                            p2pport: _data.p2pport,
+                            bthaddress: _data.bthaddress
+                        };
+                        query("SELECT * FROM bth_nodes WHERE ?"", nodeQueryParams, function(err, rows) {
                             if (!err && rows.length > 0) {
+
                                 let entry = rows[0]
                                 _data.pou_uptime = entry.pou_shares/highest_shares
                                 _data.pou_bonus = entry.pou_uptime > 0.5 ? 10 : (entry.pou_uptime > 0.25 ? 5 : 0)
                                 _data.pou_weighed_payout = entry.pou_uptime * entry.pou_payout
                                 _data.pou_sumpayout = entry.pou_weighed_payout + entry.pou_bonus
 
-                                query("UPDATE bth_nodes SET ? WHERE ipid = '"+_data.ipid+"'", _data, function() {
-                                });
-
-                                if (_data.blockheight != 0) {
-                                    query("UPDATE bth_nodes SET pou_shares = pou_shares + 1, pou_sumpayout = '"+_data.pou_sumpayout+"', pou_weighed_payout = '"+_data.pou_weighed_payout+"', pou_uptime = '"+_data.pou_uptime+"', pou_bonus = '"+_data.pou_bonus+"', last_reported_on = NOW() WHERE ipid = '"+_data.ipid+"'", _data, function() {
-                                    });
-                                }
+                                query("UPDATE bth_nodes SET ? WHERE id = '"+entry.id+"'", _data)
+                                query("UPDATE bth_nodes SET "+(_data.blockheight != 0 ? "pou_shares = pou_shares + 1,":"")+"pou_sumpayout = '"+_data.pou_sumpayout+"', pou_weighed_payout = '"+_data.pou_weighed_payout+"', pou_uptime = '"+_data.pou_uptime+"', pou_bonus = '"+_data.pou_bonus+"', last_reported_on = NOW() WHERE id = '"+entry.id+"'", _data)
                             }
                             else {
-                                query("INSERT INTO bth_nodes SET ?", _data, function() {
-                                });
+                                query("INSERT INTO bth_nodes SET ?", _data);
                             }
                         });
                     };
 
                     query("SELECT MAX(pou_shares) as highest_shares FROM bth_nodes WHERE 1", {}, function(err, rows) {
-                        if (!err && rows.length > 0) {
-                            addUpdateNodes(data, rows[0].highest_shares);
-                        }
+                          if (!err && rows.length > 0) {
+                              addUpdateNodes(data, rows[0].highest_shares);
+                          }
                     })
 
               }
