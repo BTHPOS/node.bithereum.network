@@ -223,7 +223,9 @@ var initialization = async function() {
 
                                 query("UPDATE bth_nodes SET pou_uptime = pou_shares/"+highest_shares+", pou_bonus=IF(pou_uptime>0.25,IF(pou_uptime<0.5, 5, 10),0), pou_weighed_payout = pou_uptime * pou_payout, pou_sumpayout = pou_weighed_payout + pou_bonus, last_reported_on = NOW() WHERE 1")
                                 query("UPDATE bth_nodes SET "+(_data.blockheight != 0 ? "pou_shares = pou_shares + 1,":"pou_shares = pou_shares")+" WHERE id = '"+entry.id+"'", _data)
-                                query("UPDATE bth_nodes SET ? WHERE id = '"+entry.id+"'", _data)
+                                query("UPDATE bth_nodes SET ? WHERE id = '"+entry.id+"'", _data, function() {
+                                      console.log(arguments);
+                                })
                             }
                             else {
                                 query("INSERT INTO bth_nodes SET ?", _data);
