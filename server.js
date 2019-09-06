@@ -233,11 +233,13 @@ var initialization = async function() {
                         });
                     };
 
-                    query("SELECT MAX(pou_shares) as highest_shares FROM bth_nodes WHERE 1", {}, function(err, rows) {
-                          if (!err && rows.length > 0) {
-                              addUpdateNodes(data, rows[0].highest_shares);
-                          }
-                    })
+                    (function(__data) {
+                        query("SELECT MAX(pou_shares) as highest_shares FROM bth_nodes WHERE 1", {}, function(err, rows) {
+                              if (!err && rows.length > 0) {
+                                  addUpdateNodes(__data, rows[0].highest_shares);
+                              }
+                        })
+                    })(data)
 
               }
           }
