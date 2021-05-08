@@ -11,7 +11,7 @@
   "dependencies": {
     "geolite2": "^1.2.1",
     "got": "^9.6.0",
-    "handlebars": "^4.0.11",
+    "handlebars": "^4.7.7",
     "handlebars-layout": "^0.1.4",
     "handlebars-layouts": "^3.1.4",
     "hapi": "^17.2.3",
